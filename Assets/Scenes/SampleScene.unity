@@ -472,6 +472,11 @@ MonoBehaviour:
     m_Bits: 128
   enemyRB: {fileID: 540503816}
   anim: {fileID: 540503815}
+  isGrounded: 0
+  groundCheck: {fileID: 1988762690}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &625256516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +1067,11 @@ Transform:
   m_Father: {fileID: 2037276826}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1988762690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3415814961339370259, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+  m_PrefabInstance: {fileID: 2009943799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2009943799
 PrefabInstance:
   m_ObjectHideFlags: 0

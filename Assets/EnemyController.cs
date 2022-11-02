@@ -14,7 +14,10 @@ public class EnemyController : MonoBehaviour
     public float attackRange;
     public LayerMask whatIsPlayer;
     public Rigidbody2D enemyRB;
-    public Animator anim; 
+    public Animator anim;
+    public bool isGrounded;
+    public Transform groundCheck;
+    public LayerMask whatIsGround;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
         anim.SetBool("isPunching", false);
         anim.SetBool("isKicking", false);
 
@@ -45,6 +49,9 @@ public class EnemyController : MonoBehaviour
                 PunchPlayer();
                 break;
             case 4:
+                //Jump
+                if(isGrounded)
+                    enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
                 break;
             case 5:
                 break;
