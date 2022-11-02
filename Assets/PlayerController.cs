@@ -20,11 +20,12 @@ public class PlayerController : MonoBehaviour
     public float moveDampener;
     public int jumpForce;
     public bool facingRight = true;
+    private EnemyHealthBar enemyHealthBar; 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
     }
 
     // Update is called once per frame
@@ -109,7 +110,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("We hit " + enemy.name);
+            enemyHealthBar.enemyHealthLevel -= 1;
         }
     }
 
@@ -118,7 +119,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("We hit " + enemy.name);
+            enemyHealthBar.enemyHealthLevel -= 1;
         }
     }
 
