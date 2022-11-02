@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public Transform enemyPosition;
     public Transform playerPosition;
     private PlayerHealthBar playerHealthBar;
+    private EnemyHealthBar enemyHealthBar;
     public Transform punchCheck;
     public Transform kickCheck;
     public float attackRange;
@@ -23,11 +25,14 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
+        enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (enemyHealthBar.enemyHealthLevel <= 0)
+            SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
         anim.SetBool("isPunching", false);
         anim.SetBool("isKicking", false);

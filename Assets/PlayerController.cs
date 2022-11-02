@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,17 +21,21 @@ public class PlayerController : MonoBehaviour
     public float moveDampener;
     public int jumpForce;
     public bool facingRight = true;
-    private EnemyHealthBar enemyHealthBar; 
+    private EnemyHealthBar enemyHealthBar;
+    private PlayerHealthBar playerHealthBar;
 
     // Start is called before the first frame update
     void Start()
     {
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
+        playerHealthBar = FindObjectOfType<PlayerHealthBar>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerHealthBar.playerHealthLevel <= 0)
+            SceneManager.LoadScene(0); 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
 
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
