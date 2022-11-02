@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("isPunching", false);
         anim.SetBool("isKicking", false);
 
-        randomNumber = Random.Range(1, 100);
+        randomNumber = Random.Range(1, 50);
 
         switch (randomNumber)
         {
