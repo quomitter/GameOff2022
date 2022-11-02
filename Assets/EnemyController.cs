@@ -13,7 +13,8 @@ public class EnemyController : MonoBehaviour
     public Transform kickCheck;
     public float attackRange;
     public LayerMask whatIsPlayer;
-    public Rigidbody2D enemyRB; 
+    public Rigidbody2D enemyRB;
+    public Animator anim; 
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +25,16 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetBool("isPunching", false);
+        anim.SetBool("isKicking", false);
+
         randomNumber = Random.Range(1, 4);
 
         switch (randomNumber)
         {
             case 1:
                 //Move towards player
-                transform.position = Vector2.MoveTowards(enemyPosition.position, playerPosition.position, 0.0f);
+                transform.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.5f);
                 break;
             case 2:
                 //Kick player
@@ -45,6 +49,7 @@ public class EnemyController : MonoBehaviour
 
     void PunchPlayer()
     {
+        anim.SetBool("isPunching", true); 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -54,6 +59,7 @@ public class EnemyController : MonoBehaviour
 
     void KickPlayer()
     {
+        anim.SetBool("isKicking", true); 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {

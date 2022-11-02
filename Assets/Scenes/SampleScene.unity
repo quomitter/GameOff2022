@@ -323,6 +323,16 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3415814961313376719, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
   m_PrefabInstance: {fileID: 2009943799}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &540503815 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3415814961313376709, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+  m_PrefabInstance: {fileID: 2009943799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &540503816 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 3415814961313376718, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+  m_PrefabInstance: {fileID: 2009943799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &540503819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3415814961313376707, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
@@ -349,6 +359,8 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  enemyRB: {fileID: 540503816}
+  anim: {fileID: 540503815}
 --- !u!1 &625256516
 GameObject:
   m_ObjectHideFlags: 0
