@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
@@ -22,11 +24,25 @@ public class EnemyController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask whatIsGround;
     public bool facingRight = false;
-    public float movementSpeed = 1; 
+    public float movementSpeed = 1;
+    public float speed = 10.0f;
+    public float diststop = 0.2f;
+    private Vector2 Position
+    {
+        get
+        {
+            return transform.position;
+        }
+        set
+        {
+            transform.position = value;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        enemyRB = GetComponent<Rigidbody2D>();
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
     }
@@ -34,15 +50,9 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemyRB.velocity.x < 0 && !facingRight)
-        {
-            FlipX();
-        }
-        if (enemyRB.velocity.x > 0 && facingRight)
-        {
-            FlipX();
-        }
-
+        if (playerPosition.position.x < enemyPosition.position.x)
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        else { transform.localScale = new Vector3(-1f, 1f, 1f); }
         if (enemyHealthBar.enemyHealthLevel <= 0)
             SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -54,13 +64,16 @@ public class EnemyController : MonoBehaviour
         switch (randomNumber)
         {
             case 1:
-                //Move towards player
-                Vector2 movement = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
-                enemyRB.velocity = -movement;
+                float dist = Vector2.Distance(Position, playerPosition.position);
+                float step = speed * Time.deltaTime;
+                if (dist >= diststop)
+                    Position = Vector2.MoveTowards(Position, playerPosition.position, 0.1f);
+                enemyRB.MovePosition(Position);
+                
                 break;
             case 2:
                 //Kick player
-                KickPlayer(); 
+                KickPlayer();
                 break;
             case 3:
                 //Punch player
@@ -68,27 +81,27 @@ public class EnemyController : MonoBehaviour
                 break;
             case 4:
                 //Jump
-                if(isGrounded)
+                if (isGrounded)
                     enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
                 break;
-            case 5:             
+            case 5:
                 break;
-            case 6:           
+            case 6:
                 break;
-            case 7:                            
+            case 7:
                 break;
             case 8:
                 break;
-            case 9: 
+            case 9:
                 break;
             case 10:
-                break;  
+                break;
         }
     }
 
     void PunchPlayer()
     {
-        anim.SetBool("isPunching", true); 
+        anim.SetBool("isPunching", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -98,7 +111,7 @@ public class EnemyController : MonoBehaviour
 
     void KickPlayer()
     {
-        anim.SetBool("isKicking", true); 
+        anim.SetBool("isKicking", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
