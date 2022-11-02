@@ -28,13 +28,13 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("isPunching", false);
         anim.SetBool("isKicking", false);
 
-        randomNumber = Random.Range(1, 4);
+        randomNumber = Random.Range(1, 11);
 
         switch (randomNumber)
         {
             case 1:
                 //Move towards player
-                transform.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.5f);
+                transform.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
                 break;
             case 2:
                 //Kick player
@@ -44,6 +44,20 @@ public class EnemyController : MonoBehaviour
                 //Punch player
                 PunchPlayer();
                 break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9: 
+                break;
+            case 10:
+                break;  
         }
     }
 
