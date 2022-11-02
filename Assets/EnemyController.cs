@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
         {
             case 1:
                 //Move towards player
-                transform.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
+                enemyRB.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
                 break;
             case 2:
                 //Kick player
