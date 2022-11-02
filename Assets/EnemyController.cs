@@ -12,7 +12,8 @@ public class EnemyController : MonoBehaviour
     public Transform punchCheck;
     public Transform kickCheck;
     public float attackRange;
-    public LayerMask whatIsPlayer; 
+    public LayerMask whatIsPlayer;
+    public Rigidbody2D enemyRB; 
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class EnemyController : MonoBehaviour
         {
             case 1:
                 //Move towards player
-                Vector2.MoveTowards(enemyPosition.position, playerPosition.position, 0.5f);
+                transform.position = Vector2.MoveTowards(enemyPosition.position, playerPosition.position, 0.0f);
                 break;
             case 2:
                 //Kick player
