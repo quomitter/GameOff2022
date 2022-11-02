@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Transform kickCheck;
     public LayerMask whatIsGround;
     public LayerMask whatIsEnemy;
+    public Sprite[] slantedHealthBar;
     public float attackRange = 0.5f;
     public SpriteRenderer playerSprite;
     public bool isGrounded;
