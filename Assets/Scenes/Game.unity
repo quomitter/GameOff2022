@@ -479,6 +479,8 @@ MonoBehaviour:
     m_Bits: 8
   facingRight: 1
   movementSpeed: 10
+  speed: 10
+  diststop: 0.2
 --- !u!1 &625256516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,6 +1083,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3415814961313376704, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3415814961313376704, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3415814961313376704, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: m_Color.r
+      value: 0.89092064
+      objectReference: {fileID: 0}
     - target: {fileID: 3415814961313376705, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: m_Material
       value: 
