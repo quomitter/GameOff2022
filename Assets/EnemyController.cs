@@ -53,7 +53,7 @@ public class EnemyController : MonoBehaviour
 
     void KickPlayer()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             playerHealthBar.playerHealthLevel -= 1;

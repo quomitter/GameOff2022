@@ -323,6 +323,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3415814961313376719, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
   m_PrefabInstance: {fileID: 2009943799}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &540503819 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3415814961313376707, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+  m_PrefabInstance: {fileID: 2009943799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &540503820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +340,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d34eada98847c4cb6102a0e0e0974c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomNumber: 0
+  enemyPosition: {fileID: 540503819}
+  playerPosition: {fileID: 2037276826}
+  punchCheck: {fileID: 875239639}
+  kickCheck: {fileID: 894206049}
+  attackRange: 0.5
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &625256516
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +482,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &875239638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 875239639}
+  m_Layer: 6
+  m_Name: PunchCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &875239639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875239638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.63, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 540503819}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &894206048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894206049}
+  m_Layer: 6
+  m_Name: KickCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &894206049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894206048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.67, y: -0.43, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 540503819}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1188896497
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1188896498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: KickCheck
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -619,7 +695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1804759815}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PunchCheck
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -845,11 +921,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3415814961313376719, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3415814961313376719, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3415814961339370256, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
