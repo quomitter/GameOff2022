@@ -84,18 +84,6 @@ public class EnemyController : MonoBehaviour
                 if (isGrounded)
                     enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
                 break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
         }
     }
 
