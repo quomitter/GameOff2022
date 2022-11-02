@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +21,8 @@ public class EnemyController : MonoBehaviour
     public bool isGrounded;
     public Transform groundCheck;
     public LayerMask whatIsGround;
+    public bool facingRight = false;
+    public float movementSpeed = 1; 
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,15 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(enemyRB.velocity.x < 0 && !facingRight)
+        {
+            FlipX();
+        }
+        if (enemyRB.velocity.x > 0 && facingRight)
+        {
+            FlipX();
+        }
+
         if (enemyHealthBar.enemyHealthLevel <= 0)
             SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -43,7 +55,8 @@ public class EnemyController : MonoBehaviour
         {
             case 1:
                 //Move towards player
-                enemyRB.position = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
+                Vector2 movement = Vector2.MoveTowards(transform.position, playerPosition.position, 0.1f);
+                enemyRB.velocity = -movement;
                 break;
             case 2:
                 //Kick player
@@ -58,11 +71,11 @@ public class EnemyController : MonoBehaviour
                 if(isGrounded)
                     enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
                 break;
-            case 5:
+            case 5:             
                 break;
-            case 6:
+            case 6:           
                 break;
-            case 7:
+            case 7:                            
                 break;
             case 8:
                 break;
@@ -92,6 +105,12 @@ public class EnemyController : MonoBehaviour
             playerHealthBar.playerHealthLevel -= 1;
         }
     }
-
+    void FlipX()
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
 
 }
