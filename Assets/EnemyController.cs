@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour
                 float dist = Vector2.Distance(Position, playerPosition.position);
                 float step = speed * Time.deltaTime;
                 if (dist >= diststop)
-                    Position = Vector2.MoveTowards(Position, playerPosition.position, 0.1f);
+                Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                 enemyRB.MovePosition(Position);
                 
                 break;

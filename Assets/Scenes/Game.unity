@@ -576,7 +576,7 @@ MonoBehaviour:
     m_Bits: 8
   facingRight: 1
   movementSpeed: 10
-  speed: 10
+  speed: 20
   diststop: 0.2
   enemyHit: 0
   audioSource: {fileID: 540503824}
@@ -965,8 +965,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890174755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.11, y: 1.07, z: 0}
-  m_LocalScale: {x: 1.039294, y: 10.194307, z: 1}
+  m_LocalPosition: {x: 9.11, y: 1.041, z: 0}
+  m_LocalScale: {x: 1.039294, y: 10.252415, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
