@@ -78,7 +78,6 @@ public class EnemyController : MonoBehaviour
                 if (dist >= diststop)
                 Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                 enemyRB.MovePosition(Position);
-                
                 break;
             case 2:
                 //Kick player
