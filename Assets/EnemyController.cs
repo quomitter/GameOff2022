@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public Transform playerPosition;
     private PlayerHealthBar playerHealthBar;
     private EnemyHealthBar enemyHealthBar;
+    private PlayerController playerController;
     public Transform punchCheck;
     public Transform kickCheck;
     public float attackRange;
@@ -27,6 +28,8 @@ public class EnemyController : MonoBehaviour
     public float movementSpeed = 1;
     public float speed = 10.0f;
     public float diststop = 0.2f;
+    public bool enemyHit; 
+
     private Vector2 Position
     {
         get
@@ -45,11 +48,13 @@ public class EnemyController : MonoBehaviour
         enemyRB = GetComponent<Rigidbody2D>();
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerController.playerHit = false;
         if (playerPosition.position.x < enemyPosition.position.x)
             transform.localScale = new Vector3(1f, 1f, 1f);
         else { transform.localScale = new Vector3(-1f, 1f, 1f); }
@@ -89,22 +94,29 @@ public class EnemyController : MonoBehaviour
 
     void PunchPlayer()
     {
+   
         anim.SetBool("isPunching", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
+            playerController.playerHit = true;
             playerHealthBar.playerHealthLevel -= 1;
         }
+
+
     }
 
     void KickPlayer()
     {
+ 
         anim.SetBool("isKicking", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
         {
+            playerController.playerHit = true;
             playerHealthBar.playerHealthLevel -= 1;
         }
+
     }
     void FlipX()
     {

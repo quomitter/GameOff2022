@@ -23,17 +23,21 @@ public class PlayerController : MonoBehaviour
     public bool facingRight = true;
     private EnemyHealthBar enemyHealthBar;
     private PlayerHealthBar playerHealthBar;
+    private EnemyController enemyController;
+    public bool playerHit;
 
     // Start is called before the first frame update
     void Start()
     {
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
+        enemyController = FindObjectOfType<EnemyController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
             SceneManager.LoadScene(0); 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -112,11 +116,14 @@ public class PlayerController : MonoBehaviour
 
     void PunchEnemy()
     {
+        
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
+            enemyController.enemyHit = true;
             enemyHealthBar.enemyHealthLevel -= 1;
         }
+        
     }
 
     void KickEnemy()
@@ -124,8 +131,10 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
+            enemyController.enemyHit = true;
             enemyHealthBar.enemyHealthLevel -= 1;
         }
+      
     }
 
 }
