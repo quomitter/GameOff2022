@@ -28,7 +28,10 @@ public class EnemyController : MonoBehaviour
     public float movementSpeed = 1;
     public float speed = 10.0f;
     public float diststop = 0.2f;
-    public bool enemyHit; 
+    public bool enemyHit;
+    public AudioSource audioSource;
+    public AudioClip punchSound;
+    public AudioClip kickSound;
 
     private Vector2 Position
     {
@@ -49,6 +52,7 @@ public class EnemyController : MonoBehaviour
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerController = FindObjectOfType<PlayerController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -101,6 +105,7 @@ public class EnemyController : MonoBehaviour
         {
             playerController.playerHit = true;
             playerHealthBar.playerHealthLevel -= 1;
+            audioSource.PlayOneShot(punchSound);
         }
 
 
@@ -115,6 +120,7 @@ public class EnemyController : MonoBehaviour
         {
             playerController.playerHit = true;
             playerHealthBar.playerHealthLevel -= 1;
+            audioSource.PlayOneShot(kickSound);
         }
 
     }

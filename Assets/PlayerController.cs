@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     private PlayerHealthBar playerHealthBar;
     private EnemyController enemyController;
     public bool playerHit;
+    public AudioSource audioSource;
+    public AudioClip punchSound;
+    public AudioClip kickSound;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyController = FindObjectOfType<EnemyController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -122,6 +126,7 @@ public class PlayerController : MonoBehaviour
         {
             enemyController.enemyHit = true;
             enemyHealthBar.enemyHealthLevel -= 1;
+            audioSource.PlayOneShot(punchSound);
         }
         
     }
@@ -133,6 +138,7 @@ public class PlayerController : MonoBehaviour
         {
             enemyController.enemyHit = true;
             enemyHealthBar.enemyHealthLevel -= 1;
+            audioSource.PlayOneShot(kickSound);
         }
       
     }
