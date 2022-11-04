@@ -36,7 +36,8 @@ public class EnemyController : MonoBehaviour
     public float blockTimer;
     public float punchTimer;
     public float kickTimer;
-    public float randomTimer; 
+    public float randomTimer;
+    public float speedOfTimers; 
 
     private Vector2 Position
     {
@@ -58,10 +59,12 @@ public class EnemyController : MonoBehaviour
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerController = FindObjectOfType<PlayerController>();
         audioSource = GetComponent<AudioSource>();
-        blockTimer = 0.5f;
-        punchTimer = 0.5f;
-        kickTimer = 0.5f;
-        randomTimer = 0.5f; 
+        speedOfTimers = 0.2f; 
+        blockTimer = speedOfTimers;
+        punchTimer = speedOfTimers;
+        kickTimer = speedOfTimers;
+        randomTimer = speedOfTimers; 
+
     }
 
     // Update is called once per frame
@@ -82,14 +85,14 @@ public class EnemyController : MonoBehaviour
         if(punchTimer < 0)
         {
             anim.SetBool("isPunching", false);
-            punchTimer = 0.5f; 
+            punchTimer = speedOfTimers; 
         }
         
 
         if(kickTimer < 0)
         {
             anim.SetBool("isKicking", false);
-            kickTimer = 0.5f;
+            kickTimer = speedOfTimers;
         }
         
         
@@ -97,13 +100,13 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetBool("isBlocking", false);
             isBlocking = false;
-            blockTimer = 0.5f; 
+            blockTimer = speedOfTimers; 
         }
         
         if(randomTimer < 0)
         {
             randomNumber = Random.Range(1, 6);
-            randomTimer = 0.5f; 
+            randomTimer = speedOfTimers; 
         }
         
 
