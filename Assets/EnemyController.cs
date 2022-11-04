@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     public float punchTimer;
     public float kickTimer;
     public float randomTimer;
-    public float speedOfTimers; 
+    public float speedOfTimers;
 
     private Vector2 Position
     {
@@ -59,11 +59,11 @@ public class EnemyController : MonoBehaviour
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerController = FindObjectOfType<PlayerController>();
         audioSource = GetComponent<AudioSource>();
-        speedOfTimers = 0.2f; 
+        speedOfTimers = 0.2f;
         blockTimer = speedOfTimers;
         punchTimer = speedOfTimers;
         kickTimer = speedOfTimers;
-        randomTimer = speedOfTimers; 
+        randomTimer = speedOfTimers;
 
     }
 
@@ -82,33 +82,33 @@ public class EnemyController : MonoBehaviour
             SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
 
-        if(punchTimer < 0)
+        if (punchTimer < 0)
         {
             anim.SetBool("isPunching", false);
-            punchTimer = speedOfTimers; 
+            punchTimer = speedOfTimers;
         }
-        
 
-        if(kickTimer < 0)
+
+        if (kickTimer < 0)
         {
             anim.SetBool("isKicking", false);
             kickTimer = speedOfTimers;
         }
-        
-        
-        if(blockTimer < 0)
+
+
+        if (blockTimer < 0)
         {
             anim.SetBool("isBlocking", false);
             isBlocking = false;
-            blockTimer = speedOfTimers; 
+            blockTimer = speedOfTimers;
         }
-        
-        if(randomTimer < 0)
+
+        if (randomTimer < 0)
         {
             randomNumber = Random.Range(1, 6);
-            randomTimer = speedOfTimers; 
+            randomTimer = speedOfTimers;
         }
-        
+
 
         switch (randomNumber)
         {
@@ -116,20 +116,20 @@ public class EnemyController : MonoBehaviour
                 float dist = Vector2.Distance(Position, playerPosition.position);
                 float step = speed * Time.deltaTime;
                 if (dist >= diststop)
-                Position = Vector2.MoveTowards(Position, playerPosition.position, step);
+                    Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                 enemyRB.MovePosition(Position);
-                randomNumber = 0; 
+                randomNumber = 0;
                 break;
             case 2:
                 //Kick player
-                if(!isBlocking)
-                     KickPlayer();
+                if (!isBlocking)
+                    KickPlayer();
                 randomNumber = 0;
                 break;
             case 3:
                 //Punch player
-                if(!isBlocking)
-                     PunchPlayer();
+                if (!isBlocking)
+                    PunchPlayer();
                 randomNumber = 0;
                 break;
             case 4:
@@ -148,33 +148,35 @@ public class EnemyController : MonoBehaviour
 
     void PunchPlayer()
     {
-        if (!playerController.isBlocking)
+
+
+        anim.SetBool("isPunching", true);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            anim.SetBool("isPunching", true);
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                playerController.playerHit = true;
+            playerController.playerHit = true;
+            if(!playerController.isBlocking)
                 playerHealthBar.playerHealthLevel -= 1;
-                audioSource.PlayOneShot(punchSound);
-            }
+            audioSource.PlayOneShot(punchSound);
         }
+
 
     }
 
     void KickPlayer()
     {
-        if (!playerController.isBlocking)
+
+
+        anim.SetBool("isKicking", true);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            anim.SetBool("isKicking", true);
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                playerController.playerHit = true;
+            playerController.playerHit = true;
+            if(!playerController.isBlocking)
                 playerHealthBar.playerHealthLevel -= 1;
-                audioSource.PlayOneShot(kickSound);
-            }
+            audioSource.PlayOneShot(kickSound);
         }
+
     }
 
     void BlockPlayer()

@@ -132,30 +132,32 @@ public class PlayerController : MonoBehaviour
 
     void PunchEnemy()
     {
-        if (!enemyController.isBlocking)
+
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                enemyController.enemyHit = true;
+            enemyController.enemyHit = true;
+            if (!enemyController.isBlocking)
                 enemyHealthBar.enemyHealthLevel -= 1;
-                audioSource.PlayOneShot(punchSound);
-            }
+            audioSource.PlayOneShot(punchSound);
         }
+
     }
 
     void KickEnemy()
     {
-        if (!enemyController.isBlocking)
+
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                enemyController.enemyHit = true;
+            enemyController.enemyHit = true;
+            if (!enemyController.isBlocking)
                 enemyHealthBar.enemyHealthLevel -= 1;
-                audioSource.PlayOneShot(kickSound);
-            }
+            audioSource.PlayOneShot(kickSound);
         }
+
     }
 
 }
