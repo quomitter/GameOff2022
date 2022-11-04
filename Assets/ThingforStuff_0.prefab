@@ -179,6 +179,7 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 0
+  slantedHealthBar: []
   attackRange: 0.5
   playerSprite: {fileID: 3415814961313376704}
   isGrounded: 0
@@ -186,6 +187,10 @@ MonoBehaviour:
   moveDampener: 0.5
   jumpForce: 500
   facingRight: 1
+  playerHit: 0
+  audioSource: {fileID: 0}
+  punchSound: {fileID: 0}
+  kickSound: {fileID: 0}
 --- !u!1 &3415814961339370256
 GameObject:
   m_ObjectHideFlags: 0

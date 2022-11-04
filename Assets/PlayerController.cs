@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
+    public bool isBlocking;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
-            SceneManager.LoadScene(0); 
+            SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
 
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
@@ -86,7 +88,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isWalking", false);
 
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
         {
             anim.SetBool("isPunching", true);
             PunchEnemy();
@@ -96,17 +98,27 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             anim.SetBool("isPunching", false);
-            
+
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
         {
             anim.SetBool("isKicking", true);
-            KickEnemy(); 
+            KickEnemy();
 
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             anim.SetBool("isKicking", false);
+        }
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            anim.SetBool("isBlocking", true);
+            isBlocking = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            anim.SetBool("isBlocking", false);
+            isBlocking = false;
         }
     }
 
@@ -120,27 +132,30 @@ public class PlayerController : MonoBehaviour
 
     void PunchEnemy()
     {
-        
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
-        foreach (Collider2D enemy in hitEnemies)
+        if (!enemyController.isBlocking)
         {
-            enemyController.enemyHit = true;
-            enemyHealthBar.enemyHealthLevel -= 1;
-            audioSource.PlayOneShot(punchSound);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemyController.enemyHit = true;
+                enemyHealthBar.enemyHealthLevel -= 1;
+                audioSource.PlayOneShot(punchSound);
+            }
         }
-        
     }
 
     void KickEnemy()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
-        foreach (Collider2D enemy in hitEnemies)
+        if (!enemyController.isBlocking)
         {
-            enemyController.enemyHit = true;
-            enemyHealthBar.enemyHealthLevel -= 1;
-            audioSource.PlayOneShot(kickSound);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemyController.enemyHit = true;
+                enemyHealthBar.enemyHealthLevel -= 1;
+                audioSource.PlayOneShot(kickSound);
+            }
         }
-      
     }
 
 }

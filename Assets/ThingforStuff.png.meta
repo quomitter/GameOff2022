@@ -137,8 +137,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -158,8 +158,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -179,8 +179,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -200,8 +200,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -221,8 +221,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -242,8 +242,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -263,8 +263,8 @@ TextureImporter:
         width: 15
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -281,7 +281,28 @@ TextureImporter:
         serializedVersion: 2
         x: 105
         y: 0
-        width: 15
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fe570187c0491240a8d46490c1203f1
+      internalID: 73734058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ThingforStuff_8
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 14
         height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -290,8 +311,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fe570187c0491240a8d46490c1203f1
-      internalID: 73734058
+      spriteID: 1c8e3a5b384a7d94389da5dd3ad78525
+      internalID: 1525952338
       vertices: []
       indices: 
       edges: []
@@ -313,6 +334,7 @@ TextureImporter:
       ThingforStuff_6: -1102948879
       ThingforStuff_3: 1612072023
       ThingforStuff_0: -1061658346
+      ThingforStuff_8: 1525952338
       ThingforStuff_5: -2005801118
       ThingforStuff_4: -1964821935
   spritePackingTag: 

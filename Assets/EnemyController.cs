@@ -32,6 +32,11 @@ public class EnemyController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
+    public bool isBlocking;
+    public float blockTimer;
+    public float punchTimer;
+    public float kickTimer;
+    public float randomTimer; 
 
     private Vector2 Position
     {
@@ -53,11 +58,19 @@ public class EnemyController : MonoBehaviour
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerController = FindObjectOfType<PlayerController>();
         audioSource = GetComponent<AudioSource>();
+        blockTimer = 0.5f;
+        punchTimer = 0.5f;
+        kickTimer = 0.5f;
+        randomTimer = 0.5f; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        blockTimer -= Time.deltaTime;
+        punchTimer -= Time.deltaTime;
+        kickTimer -= Time.deltaTime;
+        randomTimer -= Time.deltaTime;
         playerController.playerHit = false;
         if (playerPosition.position.x < enemyPosition.position.x)
             transform.localScale = new Vector3(1f, 1f, 1f);
@@ -65,10 +78,34 @@ public class EnemyController : MonoBehaviour
         if (enemyHealthBar.enemyHealthLevel <= 0)
             SceneManager.LoadScene(0);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
-        anim.SetBool("isPunching", false);
-        anim.SetBool("isKicking", false);
 
-        randomNumber = Random.Range(1, 50);
+        if(punchTimer < 0)
+        {
+            anim.SetBool("isPunching", false);
+            punchTimer = 0.5f; 
+        }
+        
+
+        if(kickTimer < 0)
+        {
+            anim.SetBool("isKicking", false);
+            kickTimer = 0.5f;
+        }
+        
+        
+        if(blockTimer < 0)
+        {
+            anim.SetBool("isBlocking", false);
+            isBlocking = false;
+            blockTimer = 0.5f; 
+        }
+        
+        if(randomTimer < 0)
+        {
+            randomNumber = Random.Range(1, 6);
+            randomTimer = 0.5f; 
+        }
+        
 
         switch (randomNumber)
         {
@@ -78,51 +115,71 @@ public class EnemyController : MonoBehaviour
                 if (dist >= diststop)
                 Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                 enemyRB.MovePosition(Position);
+                randomNumber = 0; 
                 break;
             case 2:
                 //Kick player
-                KickPlayer();
+                if(!isBlocking)
+                     KickPlayer();
+                randomNumber = 0;
                 break;
             case 3:
                 //Punch player
-                PunchPlayer();
+                if(!isBlocking)
+                     PunchPlayer();
+                randomNumber = 0;
                 break;
             case 4:
                 //Jump
                 if (isGrounded)
                     enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
+                randomNumber = 0;
+                break;
+            case 5:
+                //BlockPlayer
+                BlockPlayer();
+                randomNumber = 0;
                 break;
         }
     }
 
     void PunchPlayer()
     {
-   
-        anim.SetBool("isPunching", true);
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
-        foreach (Collider2D enemy in hitEnemies)
+        if (!playerController.isBlocking)
         {
-            playerController.playerHit = true;
-            playerHealthBar.playerHealthLevel -= 1;
-            audioSource.PlayOneShot(punchSound);
+            anim.SetBool("isPunching", true);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                playerController.playerHit = true;
+                playerHealthBar.playerHealthLevel -= 1;
+                audioSource.PlayOneShot(punchSound);
+            }
         }
-
 
     }
 
     void KickPlayer()
     {
- 
-        anim.SetBool("isKicking", true);
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
-        foreach (Collider2D enemy in hitEnemies)
+        if (!playerController.isBlocking)
         {
-            playerController.playerHit = true;
-            playerHealthBar.playerHealthLevel -= 1;
-            audioSource.PlayOneShot(kickSound);
+            anim.SetBool("isKicking", true);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                playerController.playerHit = true;
+                playerHealthBar.playerHealthLevel -= 1;
+                audioSource.PlayOneShot(kickSound);
+            }
         }
-
     }
+
+    void BlockPlayer()
+    {
+        anim.SetBool("isBlocking", true);
+        isBlocking = true;
+    }
+
     void FlipX()
     {
         facingRight = !facingRight;
