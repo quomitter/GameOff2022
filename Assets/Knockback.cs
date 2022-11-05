@@ -14,25 +14,27 @@ public class Knockback : MonoBehaviour
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
-        enemyController = FindObjectOfType<EnemyController>(); 
+        enemyController = FindObjectOfType<EnemyController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerController.playerHit && enemyController.facingRight && gameObject.tag == "Player")
+        if (playerController.gameIsActive)
         {
-            playerRigidbody2D.AddForce(new Vector2(-200, 50));
-        }
-        if (playerController.playerHit && !enemyController.facingRight && gameObject.tag == "Player")
-            playerRigidbody2D.AddForce(new Vector2(200, 50));
-        if (enemyController.enemyHit && playerController.facingRight && gameObject.tag == "Enemy")
-        {
-            enemyRigidbody2D.AddForce(new Vector2(200, 50));
-        }
-            
-        if (enemyController.enemyHit && !playerController.facingRight && gameObject.tag == "Enemy")
-            enemyRigidbody2D.AddForce(new Vector2(-200, 50));
-    }
+            if (playerController.playerHit && enemyController.facingRight && gameObject.tag == "Player")
+            {
+                playerRigidbody2D.AddForce(new Vector2(-200, 50));
+            }
+            if (playerController.playerHit && !enemyController.facingRight && gameObject.tag == "Player")
+                playerRigidbody2D.AddForce(new Vector2(200, 50));
+            if (enemyController.enemyHit && playerController.facingRight && gameObject.tag == "Enemy")
+            {
+                enemyRigidbody2D.AddForce(new Vector2(200, 50));
+            }
 
+            if (enemyController.enemyHit && !playerController.facingRight && gameObject.tag == "Enemy")
+                enemyRigidbody2D.AddForce(new Vector2(-200, 50));
+        }
+    }
 }
