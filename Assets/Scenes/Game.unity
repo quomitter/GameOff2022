@@ -587,6 +587,7 @@ MonoBehaviour:
   punchTimer: 0
   kickTimer: 0
   randomTimer: 0
+  moveTimer: 0
   speedOfTimers: 0
 --- !u!114 &540503821
 MonoBehaviour:

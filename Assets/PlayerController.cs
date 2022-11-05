@@ -85,6 +85,9 @@ public class PlayerController : MonoBehaviour
             }
             switch(Input.GetAxis("Horizontal"))
             {
+                case 0:
+                    anim.SetBool("isWalking", false);
+                    break; 
                 case float i when i > 0 && i <= 1:
                     anim.SetBool("isWalking", true);
                     if (!facingRight)
@@ -101,6 +104,9 @@ public class PlayerController : MonoBehaviour
 
             switch (Input.GetAxis("Vertical"))
             {
+                case 0:
+                    anim.SetBool("isCrouching", false);
+                    break;
                 case float i when i > 0 && i <= 1:
                     PlayerJump();
                     break; 
