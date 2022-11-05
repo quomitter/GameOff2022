@@ -71,15 +71,47 @@ public class PlayerController : MonoBehaviour
 
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
-
-            if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+            if(Input.GetButtonDown("Jump") && (isGrounded))
             {
-                rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
+                PlayerJump(); 
+            }
+            if ((Input.GetKeyDown(KeyCode.W) && isGrounded))
+            {
+                PlayerJump();
             }
             if (Input.GetKeyUp(KeyCode.W))
             {
 
             }
+            switch(Input.GetAxis("Horizontal"))
+            {
+                case float i when i > 0 && i <= 1:
+                    anim.SetBool("isWalking", true);
+                    if (!facingRight)
+                        FlipX();
+                    rb.velocity += new Vector2(1 * moveDampener, 0);
+                break;
+                case float i when i < 0 && i >= -1:
+                    anim.SetBool("isWalking", true);
+                    if (facingRight)
+                        FlipX();
+                    rb.velocity += new Vector2(-1 * moveDampener, 0);
+                    break; 
+            }
+
+            switch (Input.GetAxis("Vertical"))
+            {
+                case float i when i > 0 && i <= 1:
+                    PlayerJump();
+                    break; 
+                case float i when i < 0 && i >= -1:
+                    anim.SetBool("isCrouching", true);
+                    break; 
+                default:
+                    anim.SetBool("isCrouching", false);
+                    break;
+            }
+
             if (Input.GetKeyDown(KeyCode.S))
             {
                 anim.SetBool("isCrouching", true);
@@ -112,11 +144,18 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
+            if (Input.GetButtonDown("Fire1"))
             {
-                anim.SetBool("isPunching", true);
-                PunchEnemy();
+                PunchEnemy(); 
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                anim.SetBool("isPunching", false);
+            }
 
+            if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
+            {  
+                PunchEnemy();
             }
 
             if (Input.GetKeyUp(KeyCode.Space))
@@ -124,15 +163,33 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isPunching", false);
 
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
+            if (Input.GetButtonDown("Fire2"))
             {
-                anim.SetBool("isKicking", true);
                 KickEnemy();
+            }
+            if (Input.GetButtonUp("Fire2"))
+            {
+                anim.SetBool("isKicking", false);
+            }
 
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
+            {  
+                KickEnemy();
             }
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 anim.SetBool("isKicking", false);
+            }
+
+            if (Input.GetButtonDown("Fire3"))
+            {
+                anim.SetBool("isBlocking", true);
+                isBlocking = true;
+            }
+            if (Input.GetButtonUp("Fire3"))
+            {
+                anim.SetBool("isBlocking", false);
+                isBlocking = false;
             }
             if (Input.GetKey(KeyCode.Tab))
             {
@@ -158,7 +215,7 @@ public class PlayerController : MonoBehaviour
     void PunchEnemy()
     {
 
-
+        anim.SetBool("isPunching", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -173,7 +230,7 @@ public class PlayerController : MonoBehaviour
     void KickEnemy()
     {
 
-
+        anim.SetBool("isKicking", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsEnemy);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -189,4 +246,9 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    void PlayerJump()
+    {
+        if(isGrounded)
+            rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
+    }
 }
