@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,6 +32,10 @@ public class PlayerController : MonoBehaviour
     public AudioClip punchSound;
     public AudioClip kickSound;
     public bool isBlocking;
+    public Canvas winOrLoseCanvas; 
+    public TMP_Text winOrLose;
+    public Button tryAgain;
+    public bool gameIsActive; 
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +44,8 @@ public class PlayerController : MonoBehaviour
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyController = FindObjectOfType<EnemyController>();
         audioSource = GetComponent<AudioSource>();
+        winOrLoseCanvas.enabled = false;
+        gameIsActive = true; 
     }
 
     // Update is called once per frame
@@ -45,80 +53,97 @@ public class PlayerController : MonoBehaviour
     {
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
-            SceneManager.LoadScene(0);
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
-
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
-            rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
+            winOrLoseCanvas.enabled = true; 
+            winOrLose.text = "You Lost";
+            gameIsActive = false;
         }
-        if (Input.GetKeyUp(KeyCode.W))
+        if (enemyHealthBar.enemyHealthLevel <= 0)
         {
-
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            anim.SetBool("isCrouching", true);
-        }
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            anim.SetBool("isCrouching", false);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            anim.SetBool("isWalking", true);
-            if (!facingRight)
-                FlipX();
-            rb.velocity += new Vector2(1 * moveDampener, 0);
-        }
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            anim.SetBool("isWalking", false);
-
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            anim.SetBool("isWalking", true);
-            if (facingRight)
-                FlipX();
-            rb.velocity += new Vector2(-1 * moveDampener, 0);
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            anim.SetBool("isWalking", false);
-
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
-        {
-            anim.SetBool("isPunching", true);
-            PunchEnemy();
-
+            winOrLoseCanvas.enabled = true; 
+            winOrLose.text = "You Won";
+            gameIsActive = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (gameIsActive)
         {
-            anim.SetBool("isPunching", false);
 
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
-        {
-            anim.SetBool("isKicking", true);
-            KickEnemy();
 
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            anim.SetBool("isKicking", false);
-        }
-        if (Input.GetKey(KeyCode.Tab))
-        {
-            anim.SetBool("isBlocking", true);
-            isBlocking = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            anim.SetBool("isBlocking", false);
-            isBlocking = false;
+
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
+
+            if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+            {
+                rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
+            }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                anim.SetBool("isCrouching", true);
+            }
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                anim.SetBool("isCrouching", false);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                anim.SetBool("isWalking", true);
+                if (!facingRight)
+                    FlipX();
+                rb.velocity += new Vector2(1 * moveDampener, 0);
+            }
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                anim.SetBool("isWalking", false);
+
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                anim.SetBool("isWalking", true);
+                if (facingRight)
+                    FlipX();
+                rb.velocity += new Vector2(-1 * moveDampener, 0);
+            }
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                anim.SetBool("isWalking", false);
+
+            }
+            if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
+            {
+                anim.SetBool("isPunching", true);
+                PunchEnemy();
+
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                anim.SetBool("isPunching", false);
+
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
+            {
+                anim.SetBool("isKicking", true);
+                KickEnemy();
+
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                anim.SetBool("isKicking", false);
+            }
+            if (Input.GetKey(KeyCode.Tab))
+            {
+                anim.SetBool("isBlocking", true);
+                isBlocking = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                anim.SetBool("isBlocking", false);
+                isBlocking = false;
+            }
         }
     }
 
@@ -158,6 +183,10 @@ public class PlayerController : MonoBehaviour
             audioSource.PlayOneShot(kickSound);
         }
 
+    }
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

@@ -70,79 +70,84 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        blockTimer -= Time.deltaTime;
-        punchTimer -= Time.deltaTime;
-        kickTimer -= Time.deltaTime;
-        randomTimer -= Time.deltaTime;
-        playerController.playerHit = false;
-        if (playerPosition.position.x < enemyPosition.position.x)
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        else { transform.localScale = new Vector3(-1f, 1f, 1f); }
-        if (enemyHealthBar.enemyHealthLevel <= 0)
-            SceneManager.LoadScene(0);
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
-
-        if (punchTimer < 0)
+        if (playerController.gameIsActive)
         {
-            anim.SetBool("isPunching", false);
-            punchTimer = speedOfTimers;
-        }
 
 
-        if (kickTimer < 0)
-        {
-            anim.SetBool("isKicking", false);
-            kickTimer = speedOfTimers;
-        }
+
+            blockTimer -= Time.deltaTime;
+            punchTimer -= Time.deltaTime;
+            kickTimer -= Time.deltaTime;
+            randomTimer -= Time.deltaTime;
+            playerController.playerHit = false;
+            if (playerPosition.position.x < enemyPosition.position.x)
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            else { transform.localScale = new Vector3(-1f, 1f, 1f); }
+
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
+
+            if (punchTimer < 0)
+            {
+                anim.SetBool("isPunching", false);
+                punchTimer = speedOfTimers;
+            }
 
 
-        if (blockTimer < 0)
-        {
-            anim.SetBool("isBlocking", false);
-            isBlocking = false;
-            blockTimer = speedOfTimers;
-        }
-
-        if (randomTimer < 0)
-        {
-            randomNumber = Random.Range(1, 6);
-            randomTimer = speedOfTimers;
-        }
+            if (kickTimer < 0)
+            {
+                anim.SetBool("isKicking", false);
+                kickTimer = speedOfTimers;
+            }
 
 
-        switch (randomNumber)
-        {
-            case 1:
-                float dist = Vector2.Distance(Position, playerPosition.position);
-                float step = speed * Time.deltaTime;
-                if (dist >= diststop)
-                    Position = Vector2.MoveTowards(Position, playerPosition.position, step);
-                enemyRB.MovePosition(Position);
-                randomNumber = 0;
-                break;
-            case 2:
-                //Kick player
-                if (!isBlocking)
-                    KickPlayer();
-                randomNumber = 0;
-                break;
-            case 3:
-                //Punch player
-                if (!isBlocking)
-                    PunchPlayer();
-                randomNumber = 0;
-                break;
-            case 4:
-                //Jump
-                if (isGrounded)
-                    enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
-                randomNumber = 0;
-                break;
-            case 5:
-                //BlockPlayer
-                BlockPlayer();
-                randomNumber = 0;
-                break;
+            if (blockTimer < 0)
+            {
+                anim.SetBool("isBlocking", false);
+                isBlocking = false;
+                blockTimer = speedOfTimers;
+            }
+
+            if (randomTimer < 0)
+            {
+                randomNumber = Random.Range(1, 6);
+                randomTimer = speedOfTimers;
+            }
+
+
+            switch (randomNumber)
+            {
+                case 1:
+                    float dist = Vector2.Distance(Position, playerPosition.position);
+                    float step = speed * Time.deltaTime;
+                    if (dist >= diststop)
+                        Position = Vector2.MoveTowards(Position, playerPosition.position, step);
+                    enemyRB.MovePosition(Position);
+                    randomNumber = 0;
+                    break;
+                case 2:
+                    //Kick player
+                    if (!isBlocking)
+                        KickPlayer();
+                    randomNumber = 0;
+                    break;
+                case 3:
+                    //Punch player
+                    if (!isBlocking)
+                        PunchPlayer();
+                    randomNumber = 0;
+                    break;
+                case 4:
+                    //Jump
+                    if (isGrounded)
+                        enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
+                    randomNumber = 0;
+                    break;
+                case 5:
+                    //BlockPlayer
+                    BlockPlayer();
+                    randomNumber = 0;
+                    break;
+            }
         }
     }
 
