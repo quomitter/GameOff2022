@@ -113,9 +113,7 @@ public class PlayerController : MonoBehaviour
                 case float i when i < 0 && i >= -1:
                     anim.SetBool("isCrouching", true);
                     break; 
-                default:
-                    anim.SetBool("isCrouching", false);
-                    break;
+       
             }
 
             if (Input.GetKeyDown(KeyCode.S))
