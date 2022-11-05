@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
     public bool facingRight = false;
     public float movementSpeed = 1;
     public float speed = 10.0f;
-    public float diststop = 0.2f;
+    public float diststop = 0.4f;
     public bool enemyHit;
     public AudioSource audioSource;
     public AudioClip punchSound;
@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
     public float punchTimer;
     public float kickTimer;
     public float randomTimer;
+    public float moveTimer; 
     public float speedOfTimers;
 
     private Vector2 Position
@@ -64,6 +65,7 @@ public class EnemyController : MonoBehaviour
         punchTimer = speedOfTimers;
         kickTimer = speedOfTimers;
         randomTimer = speedOfTimers;
+        moveTimer = speedOfTimers;
 
     }
 
@@ -79,6 +81,7 @@ public class EnemyController : MonoBehaviour
             punchTimer -= Time.deltaTime;
             kickTimer -= Time.deltaTime;
             randomTimer -= Time.deltaTime;
+            moveTimer -= Time.deltaTime;
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
                 transform.localScale = new Vector3(1f, 1f, 1f);
@@ -112,16 +115,24 @@ public class EnemyController : MonoBehaviour
                 randomNumber = Random.Range(1, 6);
                 randomTimer = speedOfTimers;
             }
-
+            if(moveTimer < 0)
+            {
+                float dist = Vector2.Distance(Position, playerPosition.position);
+                float step = speed * Time.deltaTime;
+                if (dist >= diststop)
+                {
+                    Position = Vector2.MoveTowards(Position, playerPosition.position, step);
+                    enemyRB.MovePosition(Position);
+                }
+                moveTimer = speedOfTimers;
+            }
 
             switch (randomNumber)
             {
                 case 1:
-                    float dist = Vector2.Distance(Position, playerPosition.position);
-                    float step = speed * Time.deltaTime;
-                    if (dist >= diststop)
-                        Position = Vector2.MoveTowards(Position, playerPosition.position, step);
-                    enemyRB.MovePosition(Position);
+                    //PunchPlayer
+                    if (!isBlocking)
+                        PunchPlayer();
                     randomNumber = 0;
                     break;
                 case 2:
