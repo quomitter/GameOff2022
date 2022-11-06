@@ -77,9 +77,6 @@ public class PlayerController : MonoBehaviour
 
         if (gameIsActive)
         {
-
-
-
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
             if(Input.GetButtonDown("Jump") && (isGrounded))
             {
