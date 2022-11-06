@@ -4,10 +4,10 @@ little fighter game
 
 Xboxone Controller compatable
 
-spacebar - punch
+Lctrl - kick
 
-Lshift - kick
+Lshift - punch
 
-Tab - block
+space - block
 
 back, forward, punch - fireball
