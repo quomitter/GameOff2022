@@ -14,8 +14,8 @@ public class Timer : MonoBehaviour
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
-        countDownTimer = 99.0f;
-        timer.text = "99";
+        countDownTimer = 60.0f;
+        timer.text = "60";
     }
 
     // Update is called once per frame
