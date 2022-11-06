@@ -164,11 +164,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0))
             {
                 PunchEnemy(); 
             }
-            if (Input.GetButtonUp("Fire1"))
+            if (Input.GetButtonUp("Fire1") || Input.GetMouseButtonUp(0))
             {
                 anim.SetBool("isPunching", false);
             }
@@ -183,11 +183,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isPunching", false);
 
             }
-            if (Input.GetButtonDown("Fire2"))
+            if (Input.GetButtonDown("Fire2") || Input.GetMouseButtonDown(1))
             {
                 KickEnemy();
             }
-            if (Input.GetButtonUp("Fire2"))
+            if (Input.GetButtonUp("Fire2") || Input.GetMouseButtonUp(1))
             {
                 anim.SetBool("isKicking", false);
             }
@@ -201,12 +201,12 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isKicking", false);
             }
 
-            if (Input.GetButtonDown("Fire3"))
+            if (Input.GetButtonDown("Fire3") || Input.GetMouseButtonDown(2))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
             }
-            if (Input.GetButtonUp("Fire3"))
+            if (Input.GetButtonUp("Fire3") || Input.GetMouseButtonUp(2))
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
