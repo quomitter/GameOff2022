@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
-
+    public GameObject fireball; 
     public int randomNumber;
     public Transform enemyPosition;
     public Transform playerPosition;
@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
+    public AudioClip enemyFireballSound; 
     public bool isBlocking;
     public float blockTimer;
     public float punchTimer;
@@ -112,7 +113,7 @@ public class EnemyController : MonoBehaviour
 
             if (randomTimer < 0)
             {
-                randomNumber = Random.Range(1, 6);
+                randomNumber = Random.Range(1, 7);
                 randomTimer = speedOfTimers;
             }
 
@@ -163,6 +164,14 @@ public class EnemyController : MonoBehaviour
                         randomNumber = 0;
                         break;
                 }
+            }if(dist > 3.0f)
+            {
+                switch (randomNumber)
+                {
+                    case 6:
+                        ShootFireBall(); 
+                        break; 
+                }
             }
         }
     }
@@ -212,6 +221,27 @@ public class EnemyController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    void ShootFireBall()
+    {
+        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+        GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
+        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+        if (!facingRight)
+            shot.AddForce(-transform.right * 30, ForceMode2D.Impulse);
+        else
+            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+        Destroy(clone.gameObject, 1f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Fireball")
+        {
+            enemyHealthBar.enemyHealthLevel -= 1;
+            Destroy(collision.gameObject);
+        }
     }
 
 }

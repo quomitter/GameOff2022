@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d34eada98847c4cb6102a0e0e0974c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireball: {fileID: 4520422914788546211, guid: 4925f1936ad02284daa6caaec67293c7, type: 3}
   randomNumber: 0
   enemyPosition: {fileID: 540503819}
   playerPosition: {fileID: 2037276826}
@@ -582,6 +583,7 @@ MonoBehaviour:
   audioSource: {fileID: 540503824}
   punchSound: {fileID: 8300000, guid: 1bf24f1b6a514784fbc50e5f28a95006, type: 3}
   kickSound: {fileID: 8300000, guid: 85490bfec69e5164fb8c348008495704, type: 3}
+  enemyFireballSound: {fileID: 8300000, guid: 1bf24f1b6a514784fbc50e5f28a95006, type: 3}
   isBlocking: 0
   blockTimer: 0
   punchTimer: 0
@@ -2103,6 +2105,10 @@ PrefabInstance:
       value: -0.061775804
       objectReference: {fileID: 0}
     - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: fireball
+      value: 
+      objectReference: {fileID: 4520422914788546211, guid: 4925f1936ad02284daa6caaec67293c7, type: 3}
+    - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: tryAgain
       value: 
       objectReference: {fileID: 1826696855}
@@ -2142,6 +2148,10 @@ PrefabInstance:
       propertyPath: winOrLoseCanvas
       value: 
       objectReference: {fileID: 1848010259}
+    - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: enemyFireballSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1bf24f1b6a514784fbc50e5f28a95006, type: 3}
     - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: whatIsEnemy.m_Bits
       value: 64

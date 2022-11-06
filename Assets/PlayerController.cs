@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public GameObject fireball; 
     public Animator anim;
     public Rigidbody2D rb;
     public Transform groundCheck;
@@ -31,11 +31,14 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
+    public AudioClip enemyFireballSound; 
     public bool isBlocking;
     public Canvas winOrLoseCanvas; 
     public TMP_Text winOrLose;
     public Button tryAgain;
-    public bool gameIsActive; 
+    public bool gameIsActive;
+    public float leftButtonTimer;
+    public float rightButtonTimer; 
 
     // Start is called before the first frame update
     void Start()
@@ -46,11 +49,16 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         winOrLoseCanvas.enabled = false;
         gameIsActive = true; 
+        leftButtonTimer = 0;
+        rightButtonTimer = 0; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        leftButtonTimer -= Time.deltaTime;
+        rightButtonTimer -= Time.deltaTime;
+
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
         {
@@ -93,13 +101,19 @@ public class PlayerController : MonoBehaviour
                     if (!facingRight)
                         FlipX();
                     rb.velocity += new Vector2(1 * moveDampener, 0);
-                break;
+                    rightButtonTimer = 2.0f; 
+                    break;
                 case float i when i < 0 && i >= -1:
                     anim.SetBool("isWalking", true);
                     if (facingRight)
                         FlipX();
                     rb.velocity += new Vector2(-1 * moveDampener, 0);
+                    leftButtonTimer = 2.0f; 
                     break; 
+            }
+            if((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1")) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.Space)))
+            {
+                ShootFireBall(); 
             }
 
             switch (Input.GetAxis("Vertical"))
@@ -130,6 +144,7 @@ public class PlayerController : MonoBehaviour
                 if (!facingRight)
                     FlipX();
                 rb.velocity += new Vector2(1 * moveDampener, 0);
+                rightButtonTimer = 2.0f; 
             }
             if (Input.GetKeyUp(KeyCode.D))
             {
@@ -142,6 +157,7 @@ public class PlayerController : MonoBehaviour
                 if (facingRight)
                     FlipX();
                 rb.velocity += new Vector2(-1 * moveDampener, 0);
+                leftButtonTimer = 2.0f; 
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
@@ -254,5 +270,28 @@ public class PlayerController : MonoBehaviour
     {
         if(isGrounded)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
+    }
+
+    void ShootFireBall()
+    {
+        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+        GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
+        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+        if (!facingRight)
+            shot.AddForce(-transform.right * 30, ForceMode2D.Impulse);
+        else
+            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+        Destroy(clone.gameObject, 1f);
+        leftButtonTimer = 0;
+        rightButtonTimer = 0;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Fireball")
+        {
+            playerHealthBar.playerHealthLevel -= 1;
+            Destroy(collision.gameObject);
+        }
     }
 }
