@@ -122,7 +122,7 @@ public class EnemyController : MonoBehaviour
 
             if (randomTimer < 0)
             {
-                randomNumber = Random.Range(1, 7);
+                randomNumber = Random.Range(1, 8);
                 randomTimer = speedOfTimers;
             }
 
@@ -184,7 +184,13 @@ public class EnemyController : MonoBehaviour
                             fireballTimer = speedOfTimers; 
                         }
                             
-                        break; 
+                        break;
+                    case 7:
+                        //BlockPlayer
+                        BlockPlayer();
+                        randomNumber = 0;
+                        break;
+
                 }
             }
         }
