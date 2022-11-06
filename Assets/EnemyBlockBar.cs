@@ -77,30 +77,46 @@ public class EnemyBlockBar : MonoBehaviour
             }
         }
 
+        if (blockThreeFull)
+        {
+            blockCounter = 3;
+            canBlock = true;
+        }  
+        else if (blockTwoFull)
+        {
+            blockCounter = 2;
+            canBlock = true;
+        }
+        else if (blockOneFull)
+        {
+            blockCounter = 1;
+            canBlock = true;
+        }
+
         if (enemyController.isBlocking)
         {
-            if (blockOneFull && blockTwoFull && blockThreeFull)
+            if (blockOneFull && blockTwoFull && blockThreeFull && blockCounter == 3)
             {
                 enemyBlockLevelOne = 10;
                 enemyBlockLevelTwo = 10;
                 enemyBlockLevelThree = 0;
                 canBlock = true;
             }
-            else if (blockOneFull && blockTwoFull && !blockThreeFull)
+            else if (blockOneFull && blockTwoFull && !blockThreeFull && blockCounter == 2)
             {
                 enemyBlockLevelOne = 10;
                 enemyBlockLevelThree = 0;
                 enemyBlockLevelTwo = 0;
                 canBlock = true;
             }
-            else if (blockOneFull && !blockTwoFull && !blockThreeFull)
+            else if (blockOneFull && !blockTwoFull && !blockThreeFull && blockCounter == 1)
             {
                 enemyBlockLevelThree = 0;
                 enemyBlockLevelTwo = 0;
                 enemyBlockLevelOne = 0;
                 canBlock = true;
             }
-            else if (!blockOneFull && !blockTwoFull && !blockThreeFull)
+            else if (!blockOneFull && !blockTwoFull && !blockThreeFull && blockCounter <= 0)
             {
                 canBlock = false;
                 blockCounter = 0;

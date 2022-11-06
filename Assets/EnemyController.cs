@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UIElements;
+using System.Collections.Concurrent;
 
 public class EnemyController : MonoBehaviour
 {
@@ -117,8 +118,6 @@ public class EnemyController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;                
-                if (enemyBlockBar.blockCounter >= 0)
-                    enemyBlockBar.blockCounter--;
                 blockTimer = speedOfTimers;
 
 
@@ -182,6 +181,7 @@ public class EnemyController : MonoBehaviour
                     case 5:
                         //BlockPlayer
                         BlockPlayer();
+                        enemyBlockBar.blockCounter--;
                         randomNumber = 0;
                         break;
                 }
@@ -194,12 +194,14 @@ public class EnemyController : MonoBehaviour
                         {
                             ShootFireBall();
                             fireballTimer = speedOfTimers; 
+                            randomNumber = 0;
                         }
                             
                         break;
                     case 7:
                         //BlockPlayer
                         BlockPlayer();
+                        enemyBlockBar.blockCounter--;
                         randomNumber = 0;
                         break;
 
@@ -239,7 +241,7 @@ public class EnemyController : MonoBehaviour
 
     void BlockPlayer()
     {
-        if (enemyBlockBar.canBlock)
+        if (enemyBlockBar.canBlock && (enemyBlockBar.blockCounter == 1 || enemyBlockBar.blockCounter == 2 || enemyBlockBar.blockCounter == 3))
         {
             anim.SetBool("isBlocking", true);
             isBlocking = true;
