@@ -39,8 +39,7 @@ public class PlayerController : MonoBehaviour
     public Button tryAgain;
     public bool gameIsActive;
     public float leftButtonTimer;
-    public float rightButtonTimer;
-    public float blockTimer; 
+    public float rightButtonTimer; 
 
     // Start is called before the first frame update
     void Start()
@@ -53,14 +52,12 @@ public class PlayerController : MonoBehaviour
         winOrLoseCanvas.enabled = false;
         gameIsActive = true; 
         leftButtonTimer = 0;
-        rightButtonTimer = 0;
-        blockTimer = 3; 
+        rightButtonTimer = 0;  
     }
 
     // Update is called once per frame
     void Update()
     {
-        blockTimer -= Time.deltaTime;
         leftButtonTimer -= Time.deltaTime;
         rightButtonTimer -= Time.deltaTime;
 
@@ -205,7 +202,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isKicking", false);
             }
 
-            if ((Input.GetButtonDown("Fire3") && blockTimer > 0) || (Input.GetMouseButtonDown(2) && blockTimer > 0))
+            if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -214,8 +211,9 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
+                playerBlockBar.blockCounter--;
             }
-            if (Input.GetKey(KeyCode.Space) && blockTimer > 0)
+            if (Input.GetKey(KeyCode.Space) && playerBlockBar.canBlock)
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -224,10 +222,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
-            }
-            if (playerBlockBar.canBlock)
-            {
-                blockTimer = 3;
+                playerBlockBar.blockCounter--;
             }
         }
     }

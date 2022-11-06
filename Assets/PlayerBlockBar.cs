@@ -13,18 +13,20 @@ public class PlayerBlockBar : MonoBehaviour
     public float playerBlockRechargeRate;
     public bool blockOneFull, blockTwoFull, blockThreeFull;
     public bool canBlock;
+    public int blockCounter;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
-        playerBlockBarSpriteRenderer1.sprite = playerBlockBar[0];
-        playerBlockBarSpriteRenderer2.sprite = playerBlockBar[0];
-        playerBlockBarSpriteRenderer3.sprite = playerBlockBar[0];
+        playerBlockLevelOne = 10;
+        playerBlockLevelTwo = 10;
+        playerBlockLevelThree = 10;
         blockOneFull = true;
         blockTwoFull = true;
         blockThreeFull = true;
         playerBlockRechargeRate = 0.2f;
+        blockCounter = 3; 
     }
 
     // Update is called once per frame
@@ -42,28 +44,34 @@ public class PlayerBlockBar : MonoBehaviour
                 if (playerBlockLevelOne == 10)
                 {
                     blockOneFull = true;
+                    canBlock = true;
+                    blockCounter = 1; 
                 }
                     
             }
-            if (!blockTwoFull)
+            else if (!blockTwoFull)
             {
                 if (playerBlockLevelTwo <= 9)
                     playerBlockLevelTwo++;
                 playerBlockRechargeRate = 0.2f;
                 if (playerBlockLevelTwo == 10)
                 {
-                    blockTwoFull = true;  
+                    blockTwoFull = true;
+                    canBlock = true;
+                    blockCounter = 2; 
                 }
                     
             }
-            if (!blockThreeFull)
+            else if (!blockThreeFull)
             {
                 if (playerBlockLevelThree <= 9)
                     playerBlockLevelThree++;
                 playerBlockRechargeRate = 0.2f;
                 if (playerBlockLevelThree == 10)
                 {
-                    blockThreeFull = true;  
+                    blockThreeFull = true;
+                    canBlock = true;
+                    blockCounter = 3; 
                 }
                     
             }
@@ -71,27 +79,31 @@ public class PlayerBlockBar : MonoBehaviour
 
         if (playerController.isBlocking)
         {
-            if (blockOneFull && blockTwoFull && blockThreeFull)
+            if (blockOneFull && blockTwoFull && blockThreeFull && blockCounter == 3)
             {
+                playerBlockLevelOne = 10; 
+                playerBlockLevelTwo = 10;
                 playerBlockLevelThree = 0;
-                playerController.blockTimer = 3;
-                canBlock = true; 
-            }
-            else if (blockOneFull && blockTwoFull && !blockThreeFull)
-            {
-                playerBlockLevelTwo = 0;
-                playerController.blockTimer = 3;
                 canBlock = true;
             }
-            else if (blockOneFull && !blockTwoFull && !blockThreeFull)
+            else if (blockOneFull && blockTwoFull && !blockThreeFull && blockCounter == 2)
             {
+                playerBlockLevelOne = 10; 
+                playerBlockLevelThree = 0; 
+                playerBlockLevelTwo = 0;
+                canBlock = true;
+            }
+            else if (blockOneFull && !blockTwoFull && !blockThreeFull && blockCounter == 1)
+            {
+                playerBlockLevelThree = 0;
+                playerBlockLevelTwo = 0;
                 playerBlockLevelOne = 0;
-                playerController.blockTimer = 3;
                 canBlock = true;
             }
             else if (!blockOneFull && !blockTwoFull && !blockThreeFull)
             {
                 canBlock = false;
+                blockCounter = 0; 
             }
         }
 
