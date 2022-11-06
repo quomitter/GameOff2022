@@ -25,7 +25,7 @@ public class EnemyBlockBar : MonoBehaviour
         blockOneFull = true;
         blockTwoFull = true;
         blockThreeFull = true;
-        enemyBlockRechargeRate = 0.2f;
+        enemyBlockRechargeRate = 0.1f;
         blockCounter = 3;
     }
 
@@ -40,7 +40,7 @@ public class EnemyBlockBar : MonoBehaviour
             {
                 if (enemyBlockLevelOne <= 9)
                     enemyBlockLevelOne++;
-                enemyBlockRechargeRate = 0.2f;
+                enemyBlockRechargeRate = 0.1f;
                 if (enemyBlockLevelOne == 10)
                 {
                     blockOneFull = true;
@@ -53,7 +53,7 @@ public class EnemyBlockBar : MonoBehaviour
             {
                 if (enemyBlockLevelTwo <= 9)
                     enemyBlockLevelTwo++;
-                enemyBlockRechargeRate = 0.2f;
+                enemyBlockRechargeRate = 0.1f;
                 if (enemyBlockLevelTwo == 10)
                 {
                     blockTwoFull = true;
@@ -66,7 +66,7 @@ public class EnemyBlockBar : MonoBehaviour
             {
                 if (enemyBlockLevelThree <= 9)
                     enemyBlockLevelThree++;
-                enemyBlockRechargeRate = 0.2f;
+                enemyBlockRechargeRate = 0.1f;
                 if (enemyBlockLevelThree == 10)
                 {
                     blockThreeFull = true;

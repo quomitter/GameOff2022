@@ -25,7 +25,7 @@ public class PlayerBlockBar : MonoBehaviour
         blockOneFull = true;
         blockTwoFull = true;
         blockThreeFull = true;
-        playerBlockRechargeRate = 0.2f;
+        playerBlockRechargeRate = 0.1f;
         blockCounter = 3; 
     }
 
@@ -40,7 +40,7 @@ public class PlayerBlockBar : MonoBehaviour
             {
                 if (playerBlockLevelOne <= 9)
                     playerBlockLevelOne++;
-                playerBlockRechargeRate = 0.2f;
+                playerBlockRechargeRate = 0.1f;
                 if (playerBlockLevelOne == 10)
                 {
                     blockOneFull = true;
@@ -53,7 +53,7 @@ public class PlayerBlockBar : MonoBehaviour
             {
                 if (playerBlockLevelTwo <= 9)
                     playerBlockLevelTwo++;
-                playerBlockRechargeRate = 0.2f;
+                playerBlockRechargeRate = 0.1f;
                 if (playerBlockLevelTwo == 10)
                 {
                     blockTwoFull = true;
@@ -66,7 +66,7 @@ public class PlayerBlockBar : MonoBehaviour
             {
                 if (playerBlockLevelThree <= 9)
                     playerBlockLevelThree++;
-                playerBlockRechargeRate = 0.2f;
+                playerBlockRechargeRate = 0.1f;
                 if (playerBlockLevelThree == 10)
                 {
                     blockThreeFull = true;
