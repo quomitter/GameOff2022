@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
                     leftButtonTimer = 2.0f; 
                     break; 
             }
-            if((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1")) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.Space)))
+            if((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
             {
                 ShootFireBall(); 
             }
@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if (Input.GetButtonDown("Fire1") || Input.GetMouseButtonDown(0))
+            if ((Input.GetButtonDown("Fire1") && !isBlocking) || (Input.GetMouseButtonDown(0) && !isBlocking))
             {
                 PunchEnemy(); 
             }
@@ -173,17 +173,17 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isPunching", false);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
             {  
                 PunchEnemy();
             }
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 anim.SetBool("isPunching", false);
 
             }
-            if (Input.GetButtonDown("Fire2") || Input.GetMouseButtonDown(1))
+            if ((Input.GetButtonDown("Fire2") && !isBlocking) || (!isBlocking && Input.GetMouseButtonDown(1)))
             {
                 KickEnemy();
             }
@@ -192,11 +192,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isKicking", false);
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
             {  
                 KickEnemy();
             }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 anim.SetBool("isKicking", false);
             }
@@ -211,12 +211,12 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
             }
-            if (Input.GetKey(KeyCode.Tab))
+            if (Input.GetKey(KeyCode.Space))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
             }
-            if (Input.GetKeyUp(KeyCode.Tab))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
