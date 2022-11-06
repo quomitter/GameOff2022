@@ -211,7 +211,8 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
-                playerBlockBar.blockCounter--;
+                if (playerBlockBar.blockCounter >= 0)
+                    playerBlockBar.blockCounter--;
             }
             if (Input.GetKey(KeyCode.Space) && playerBlockBar.canBlock)
             {
@@ -222,7 +223,8 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
-                playerBlockBar.blockCounter--;
+                if (playerBlockBar.blockCounter >= 0)
+                    playerBlockBar.blockCounter--;
             }
         }
     }

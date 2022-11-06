@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private PlayerHealthBar playerHealthBar;
     private EnemyHealthBar enemyHealthBar;
     private PlayerController playerController;
+    private EnemyBlockBar enemyBlockBar;
     public Transform punchCheck;
     public Transform kickCheck;
     public float attackRange;
@@ -62,6 +63,7 @@ public class EnemyController : MonoBehaviour
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerController = FindObjectOfType<PlayerController>();
+        enemyBlockBar = FindObjectOfType<EnemyBlockBar>();
         audioSource = GetComponent<AudioSource>();
         speedOfTimers = 0.2f;
         blockTimer = speedOfTimers;
@@ -116,6 +118,9 @@ public class EnemyController : MonoBehaviour
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
                 blockTimer = speedOfTimers;
+                if (enemyBlockBar.blockCounter >= 0)
+                    enemyBlockBar.blockCounter--;
+
             }
 
             if (randomTimer < 0)
@@ -233,8 +238,12 @@ public class EnemyController : MonoBehaviour
 
     void BlockPlayer()
     {
-        anim.SetBool("isBlocking", true);
-        isBlocking = true;
+        if (enemyBlockBar.canBlock)
+        {
+            anim.SetBool("isBlocking", true);
+            isBlocking = true;
+        }
+
     }
 
     void ShootFireBall()
