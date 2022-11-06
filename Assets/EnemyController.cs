@@ -39,6 +39,7 @@ public class EnemyController : MonoBehaviour
     public float kickTimer;
     public float randomTimer;
     public float moveTimer;
+    public float fireballTimer; 
     public float speedOfTimers;
 
     private Vector2 Position
@@ -67,6 +68,7 @@ public class EnemyController : MonoBehaviour
         kickTimer = speedOfTimers;
         randomTimer = speedOfTimers;
         moveTimer = speedOfTimers;
+        fireballTimer = speedOfTimers;
 
     }
 
@@ -83,10 +85,17 @@ public class EnemyController : MonoBehaviour
             kickTimer -= Time.deltaTime;
             randomTimer -= Time.deltaTime;
             moveTimer -= Time.deltaTime;
+            fireballTimer -= Time.deltaTime; 
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+                facingRight = false; 
+            } else 
+            { 
                 transform.localScale = new Vector3(1f, 1f, 1f);
-            else { transform.localScale = new Vector3(-1f, 1f, 1f); }
+                facingRight = true; 
+            }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
 
@@ -169,7 +178,12 @@ public class EnemyController : MonoBehaviour
                 switch (randomNumber)
                 {
                     case 6:
-                        ShootFireBall(); 
+                        if(fireballTimer < 0)
+                        {
+                            ShootFireBall();
+                            fireballTimer = speedOfTimers; 
+                        }
+                            
                         break; 
                 }
             }
@@ -215,24 +229,14 @@ public class EnemyController : MonoBehaviour
         isBlocking = true;
     }
 
-    void FlipX()
-    {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
-
     void ShootFireBall()
     {
         audioSource.PlayOneShot(enemyFireballSound, 0.45f);
         GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
         Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        if (!facingRight)
-            shot.AddForce(-transform.right * 30, ForceMode2D.Impulse);
-        else
-            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+        shot.AddForce(transform.right * 30, ForceMode2D.Force);
         Destroy(clone.gameObject, 1f);
+        randomNumber = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

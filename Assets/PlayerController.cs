@@ -277,10 +277,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(enemyFireballSound, 0.45f);
         GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
         Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        if (!facingRight)
-            shot.AddForce(-transform.right * 30, ForceMode2D.Impulse);
-        else
-            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+        shot.AddForce(transform.right * 30, ForceMode2D.Force);
         Destroy(clone.gameObject, 1f);
         leftButtonTimer = 0;
         rightButtonTimer = 0;
