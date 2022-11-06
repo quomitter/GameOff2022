@@ -227,9 +227,12 @@ public class PlayerController : MonoBehaviour
     void FlipX()
     {
         facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        Quaternion theRotaion = transform.localRotation;
+        if(facingRight)
+            theRotaion = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        if(!facingRight)
+            theRotaion = Quaternion.Euler(new Vector3(180f, 0f, 180f));
+        transform.localRotation = theRotaion;
     }
 
     void PunchEnemy()
@@ -277,7 +280,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(enemyFireballSound, 0.45f);
         GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
         Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        shot.AddForce(transform.right * 30, ForceMode2D.Force);
+        shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
         Destroy(clone.gameObject, 1f);
         leftButtonTimer = 0;
         rightButtonTimer = 0;

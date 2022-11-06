@@ -89,11 +89,11 @@ public class EnemyController : MonoBehaviour
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
             {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
+                transform.localRotation = Quaternion.Euler(new Vector3(180f, 0f, 180f));
                 facingRight = false; 
             } else 
-            { 
-                transform.localScale = new Vector3(1f, 1f, 1f);
+            {
+                transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
                 facingRight = true; 
             }
 
@@ -234,7 +234,7 @@ public class EnemyController : MonoBehaviour
         audioSource.PlayOneShot(enemyFireballSound, 0.45f);
         GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
         Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        shot.AddForce(transform.right * 30, ForceMode2D.Force);
+        shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
         Destroy(clone.gameObject, 1f);
         randomNumber = 0;
     }
