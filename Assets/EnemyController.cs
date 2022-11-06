@@ -41,6 +41,7 @@ public class EnemyController : MonoBehaviour
     public float moveTimer;
     public float fireballTimer; 
     public float speedOfTimers;
+    public int stepCounter; 
 
     private Vector2 Position
     {
@@ -133,8 +134,16 @@ public class EnemyController : MonoBehaviour
                 {
                     Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                     enemyRB.MovePosition(Position);
+                    anim.SetBool("isWalking", true);
                 }
-                moveTimer = speedOfTimers;
+                stepCounter++;
+                if(stepCounter > 1)
+                {
+                    moveTimer = speedOfTimers;
+                    stepCounter = 0;
+                    anim.SetBool("isWalking", false);
+                }
+                
             }
             if (dist < 2.0f)
             {
