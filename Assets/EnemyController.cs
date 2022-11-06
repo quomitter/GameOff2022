@@ -77,9 +77,6 @@ public class EnemyController : MonoBehaviour
     {
         if (playerController.gameIsActive)
         {
-
-
-
             blockTimer -= Time.deltaTime;
             punchTimer -= Time.deltaTime;
             kickTimer -= Time.deltaTime;
@@ -198,8 +195,6 @@ public class EnemyController : MonoBehaviour
 
     void PunchPlayer()
     {
-
-
         anim.SetBool("isPunching", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punchCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
@@ -215,8 +210,6 @@ public class EnemyController : MonoBehaviour
 
     void KickPlayer()
     {
-
-
         anim.SetBool("isKicking", true);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(kickCheck.position, attackRange, whatIsPlayer);
         foreach (Collider2D enemy in hitEnemies)
