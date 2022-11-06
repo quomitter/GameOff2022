@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     public float punchTimer;
     public float kickTimer;
     public float randomTimer;
-    public float moveTimer; 
+    public float moveTimer;
     public float speedOfTimers;
 
     private Vector2 Position
@@ -115,9 +115,12 @@ public class EnemyController : MonoBehaviour
                 randomNumber = Random.Range(1, 6);
                 randomTimer = speedOfTimers;
             }
-            if(moveTimer < 0)
+
+
+            float dist = Vector2.Distance(Position, playerPosition.position);
+            if (moveTimer < 0)
             {
-                float dist = Vector2.Distance(Position, playerPosition.position);
+
                 float step = speed * Time.deltaTime;
                 if (dist >= diststop)
                 {
@@ -126,38 +129,40 @@ public class EnemyController : MonoBehaviour
                 }
                 moveTimer = speedOfTimers;
             }
-
-            switch (randomNumber)
+            if (dist < 2.0f)
             {
-                case 1:
-                    //PunchPlayer
-                    if (!isBlocking)
-                        PunchPlayer();
-                    randomNumber = 0;
-                    break;
-                case 2:
-                    //Kick player
-                    if (!isBlocking)
-                        KickPlayer();
-                    randomNumber = 0;
-                    break;
-                case 3:
-                    //Punch player
-                    if (!isBlocking)
-                        PunchPlayer();
-                    randomNumber = 0;
-                    break;
-                case 4:
-                    //Jump
-                    if (isGrounded)
-                        enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
-                    randomNumber = 0;
-                    break;
-                case 5:
-                    //BlockPlayer
-                    BlockPlayer();
-                    randomNumber = 0;
-                    break;
+                switch (randomNumber)
+                {
+                    case 1:
+                        //PunchPlayer
+                        if (!isBlocking)
+                            PunchPlayer();
+                        randomNumber = 0;
+                        break;
+                    case 2:
+                        //Kick player
+                        if (!isBlocking)
+                            KickPlayer();
+                        randomNumber = 0;
+                        break;
+                    case 3:
+                        //Punch player
+                        if (!isBlocking)
+                            PunchPlayer();
+                        randomNumber = 0;
+                        break;
+                    case 4:
+                        //Jump
+                        if (isGrounded)
+                            enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
+                        randomNumber = 0;
+                        break;
+                    case 5:
+                        //BlockPlayer
+                        BlockPlayer();
+                        randomNumber = 0;
+                        break;
+                }
             }
         }
     }
@@ -171,7 +176,7 @@ public class EnemyController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             playerController.playerHit = true;
-            if(!playerController.isBlocking)
+            if (!playerController.isBlocking)
                 playerHealthBar.playerHealthLevel -= 1;
             audioSource.PlayOneShot(punchSound);
         }
@@ -188,7 +193,7 @@ public class EnemyController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             playerController.playerHit = true;
-            if(!playerController.isBlocking)
+            if (!playerController.isBlocking)
                 playerHealthBar.playerHealthLevel -= 1;
             audioSource.PlayOneShot(kickSound);
         }
