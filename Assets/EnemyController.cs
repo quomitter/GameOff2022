@@ -116,10 +116,11 @@ public class EnemyController : MonoBehaviour
             if (blockTimer < 0)
             {
                 anim.SetBool("isBlocking", false);
-                isBlocking = false;
-                blockTimer = speedOfTimers;
+                isBlocking = false;                
                 if (enemyBlockBar.blockCounter >= 0)
                     enemyBlockBar.blockCounter--;
+                blockTimer = speedOfTimers;
+
 
             }
 

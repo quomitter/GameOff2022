@@ -79,21 +79,21 @@ public class EnemyBlockBar : MonoBehaviour
 
         if (enemyController.isBlocking)
         {
-            if (blockOneFull && blockTwoFull && blockThreeFull && blockCounter == 3)
+            if (blockOneFull && blockTwoFull && blockThreeFull)
             {
                 enemyBlockLevelOne = 10;
                 enemyBlockLevelTwo = 10;
                 enemyBlockLevelThree = 0;
                 canBlock = true;
             }
-            else if (blockOneFull && blockTwoFull && !blockThreeFull && blockCounter == 2)
+            else if (blockOneFull && blockTwoFull && !blockThreeFull)
             {
                 enemyBlockLevelOne = 10;
                 enemyBlockLevelThree = 0;
                 enemyBlockLevelTwo = 0;
                 canBlock = true;
             }
-            else if (blockOneFull && !blockTwoFull && !blockThreeFull && blockCounter == 1)
+            else if (blockOneFull && !blockTwoFull && !blockThreeFull)
             {
                 enemyBlockLevelThree = 0;
                 enemyBlockLevelTwo = 0;

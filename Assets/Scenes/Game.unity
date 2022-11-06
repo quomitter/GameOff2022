@@ -848,6 +848,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed87130b8a6e13d4686bbc171d6dd5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyBlockBarSpriteRenderer1: {fileID: 854033309}
+  enemyBlockBarSpriteRenderer2: {fileID: 2080665148}
+  enemyBlockBarSpriteRenderer3: {fileID: 913319487}
+  enemyBlockBar:
+  - {fileID: -1440875710, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: 343248302, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -821897142, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -457447, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: 901079322, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -1301978245, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -764402422, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: 1424801031, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -980865692, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: 1590596530, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  - {fileID: -72754081, guid: 16c3de57504d1334894f46f26488dc44, type: 3}
+  enemyBlockLevelOne: 0
+  enemyBlockLevelTwo: 0
+  enemyBlockLevelThree: 0
+  enemyBlockRechargeRate: 0
+  blockOneFull: 0
+  blockTwoFull: 0
+  blockThreeFull: 0
+  canBlock: 0
+  blockCounter: 0
 --- !u!4 &605742411
 Transform:
   m_ObjectHideFlags: 0
@@ -1565,6 +1589,7 @@ MonoBehaviour:
   blockTwoFull: 0
   blockThreeFull: 0
   canBlock: 0
+  blockCounter: 0
 --- !u!4 &1101269029
 Transform:
   m_ObjectHideFlags: 0
