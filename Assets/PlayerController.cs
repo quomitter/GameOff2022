@@ -65,12 +65,14 @@ public class PlayerController : MonoBehaviour
             winOrLoseCanvas.enabled = true; 
             winOrLose.text = "You Lost";
             gameIsActive = false;
+            playerHealthBar.playerSpriteRenderer.sprite = playerHealthBar.playerHealthBar[0];
         }
         if (enemyHealthBar.enemyHealthLevel <= 0)
         {
             winOrLoseCanvas.enabled = true; 
             winOrLose.text = "You Won";
             gameIsActive = false;
+            enemyHealthBar.enemySpriteRenderer.sprite = enemyHealthBar.enemyHealthBar[0];
         }
 
         if (gameIsActive)
