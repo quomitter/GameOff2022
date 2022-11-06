@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetBool("isCrouching", false);
                     break;
                 case float i when i > 0 && i <= 1:
-                    PlayerJump();
+                    //PlayerJump();
                     break; 
                 case float i when i < 0 && i >= -1:
                     anim.SetBool("isCrouching", true);
