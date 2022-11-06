@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private EnemyHealthBar enemyHealthBar;
     private PlayerHealthBar playerHealthBar;
     private EnemyController enemyController;
+    private PlayerBlockBar playerBlockBar;
     public bool playerHit;
     public AudioSource audioSource;
     public AudioClip punchSound;
@@ -38,11 +39,13 @@ public class PlayerController : MonoBehaviour
     public Button tryAgain;
     public bool gameIsActive;
     public float leftButtonTimer;
-    public float rightButtonTimer; 
+    public float rightButtonTimer;
+    public float blockTimer; 
 
     // Start is called before the first frame update
     void Start()
     {
+        playerBlockBar = FindObjectOfType<PlayerBlockBar>();
         enemyHealthBar = FindObjectOfType<EnemyHealthBar>();
         playerHealthBar = FindObjectOfType<PlayerHealthBar>();
         enemyController = FindObjectOfType<EnemyController>();
@@ -50,12 +53,14 @@ public class PlayerController : MonoBehaviour
         winOrLoseCanvas.enabled = false;
         gameIsActive = true; 
         leftButtonTimer = 0;
-        rightButtonTimer = 0; 
+        rightButtonTimer = 0;
+        blockTimer = 3; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        blockTimer -= Time.deltaTime;
         leftButtonTimer -= Time.deltaTime;
         rightButtonTimer -= Time.deltaTime;
 
@@ -200,7 +205,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isKicking", false);
             }
 
-            if (Input.GetButtonDown("Fire3") || Input.GetMouseButtonDown(2))
+            if ((Input.GetButtonDown("Fire3") && blockTimer > 0) || (Input.GetMouseButtonDown(2) && blockTimer > 0))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -210,7 +215,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && blockTimer > 0)
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -219,6 +224,10 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
+            }
+            if (playerBlockBar.canBlock)
+            {
+                blockTimer = 3;
             }
         }
     }
