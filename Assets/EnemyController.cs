@@ -233,6 +233,7 @@ public class EnemyController : MonoBehaviour
     {
         audioSource.PlayOneShot(enemyFireballSound, 0.45f);
         GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
+        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
         Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
         shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
         Destroy(clone.gameObject, 1f);
@@ -243,7 +244,8 @@ public class EnemyController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Fireball")
         {
-            enemyHealthBar.enemyHealthLevel -= 1;
+            if(!isBlocking)
+                enemyHealthBar.enemyHealthLevel -= 1;
             Destroy(collision.gameObject);
         }
     }
