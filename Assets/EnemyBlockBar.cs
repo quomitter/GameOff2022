@@ -14,6 +14,7 @@ public class EnemyBlockBar : MonoBehaviour
     public bool blockOneFull, blockTwoFull, blockThreeFull;
     public bool canBlock;
     public int blockCounter;
+    public bool canSwitchCounter;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class EnemyBlockBar : MonoBehaviour
         blockThreeFull = true;
         enemyBlockRechargeRate = 0.1f;
         blockCounter = 3;
+        canSwitchCounter = true; 
     }
 
     // Update is called once per frame

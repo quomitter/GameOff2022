@@ -118,8 +118,11 @@ public class EnemyController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
-                if(enemyBlockBar.canBlock)
-                    blockTimer = speedOfTimers;
+                blockTimer = speedOfTimers;
+            }
+            if(blockTimer == 0)
+            {
+                enemyBlockBar.blockCounter--;
             }
 
             if (randomTimer < 0)
