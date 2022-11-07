@@ -183,7 +183,6 @@ public class EnemyController : MonoBehaviour
                     case 5:
                         //BlockPlayer
                         BlockPlayer();
-                        enemyBlockBar.blockCounter--;
                         randomNumber = 0;
                         break;
                 }
@@ -260,6 +259,11 @@ public class EnemyController : MonoBehaviour
         shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
         Destroy(clone.gameObject, 1f);
         randomNumber = 0;
+    }
+
+    void EndBlock()
+    {
+        enemyBlockBar.blockCounter--;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
