@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class  EnemyBlockBar : MonoBehaviour
 {
-    public static EnemyBlockBar Instance { get; private set; }
-
     private EnemyController enemyController;
     public SpriteRenderer enemyBlockBarSpriteRenderer1, enemyBlockBarSpriteRenderer2, enemyBlockBarSpriteRenderer3;
     public Sprite[] enemyBlockBar;
@@ -18,17 +16,6 @@ public class  EnemyBlockBar : MonoBehaviour
     public int blockCounter; 
     public bool SwitchCounted;
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {
