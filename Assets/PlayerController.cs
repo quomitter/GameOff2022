@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip kickSound;
     public AudioClip enemyFireballSound; 
     public bool isBlocking;
+    public bool isPunching;
+    public bool isKicking;
     public Canvas winOrLoseCanvas; 
     public TMP_Text winOrLose;
     public Button tryAgain;
@@ -165,41 +167,49 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if ((Input.GetButtonDown("Fire1") && !isBlocking) || (Input.GetMouseButtonDown(0) && !isBlocking))
+            if ((Input.GetButtonDown("Fire1") && !isKicking && !isBlocking) || (Input.GetMouseButtonDown(0) && !isKicking && !isBlocking))
             {
-                PunchEnemy(); 
+                PunchEnemy();
+                isPunching = true;
             }
             if (Input.GetButtonUp("Fire1") || Input.GetMouseButtonUp(0))
             {
                 anim.SetBool("isPunching", false);
+                isPunching = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isKicking)
             {  
                 PunchEnemy();
+                isPunching = true;
             }
 
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 anim.SetBool("isPunching", false);
+                isPunching = false; 
 
             }
-            if ((Input.GetButtonDown("Fire2") && !isBlocking) || (!isBlocking && Input.GetMouseButtonDown(1)))
+            if ((Input.GetButtonDown("Fire2") && !isBlocking && !isPunching) || (!isBlocking && !isPunching && Input.GetMouseButtonDown(1)))
             {
                 KickEnemy();
+                isKicking = true; 
             }
             if (Input.GetButtonUp("Fire2") || Input.GetMouseButtonUp(1))
             {
                 anim.SetBool("isKicking", false);
+                isKicking = false; 
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isPunching)
             {  
                 KickEnemy();
+                isKicking = true; 
             }
             if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 anim.SetBool("isKicking", false);
+                isKicking = false;
             }
 
             if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock))
