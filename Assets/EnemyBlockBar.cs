@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBlockBar : MonoBehaviour
+public class  EnemyBlockBar : MonoBehaviour
 {
+    public static EnemyBlockBar Instance { get; private set; }
+
     private EnemyController enemyController;
     public SpriteRenderer enemyBlockBarSpriteRenderer1, enemyBlockBarSpriteRenderer2, enemyBlockBarSpriteRenderer3;
     public Sprite[] enemyBlockBar;
@@ -13,9 +15,20 @@ public class EnemyBlockBar : MonoBehaviour
     public float enemyBlockRechargeRate;
     public bool blockOneFull, blockTwoFull, blockThreeFull;
     public bool canBlock;
-    public int blockCounter;
+    public int blockCounter; 
     public bool SwitchCounted;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {

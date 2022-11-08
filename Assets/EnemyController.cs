@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UIElements;
 using System.Collections.Concurrent;
+using UnityEditor.Experimental.GraphView;
 
 public class EnemyController : MonoBehaviour
 {
-    public GameObject fireball; 
+    public GameObject fireball;
     public int randomNumber;
     public Transform enemyPosition;
     public Transform playerPosition;
@@ -34,16 +35,17 @@ public class EnemyController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
-    public AudioClip enemyFireballSound; 
+    public AudioClip enemyFireballSound;
+    public int blockCounterLocal = 3;
     public bool isBlocking;
     public float blockTimer;
     public float punchTimer;
     public float kickTimer;
     public float randomTimer;
     public float moveTimer;
-    public float fireballTimer; 
+    public float fireballTimer;
     public float speedOfTimers;
-    public int stepCounter; 
+    public int stepCounter;
 
     private Vector2 Position
     {
@@ -86,16 +88,17 @@ public class EnemyController : MonoBehaviour
             kickTimer -= Time.deltaTime;
             randomTimer -= Time.deltaTime;
             moveTimer -= Time.deltaTime;
-            fireballTimer -= Time.deltaTime; 
+            fireballTimer -= Time.deltaTime;
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
             {
                 transform.localRotation = Quaternion.Euler(new Vector3(180f, 0f, 180f));
-                facingRight = false; 
-            } else 
+                facingRight = false;
+            }
+            else
             {
                 transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-                facingRight = true; 
+                facingRight = true;
             }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -120,10 +123,6 @@ public class EnemyController : MonoBehaviour
                 isBlocking = false;
                 blockTimer = speedOfTimers;
             }
-            if(blockTimer == 0)
-            {
-                enemyBlockBar.blockCounter--;
-            }
 
             if (randomTimer < 0)
             {
@@ -144,13 +143,13 @@ public class EnemyController : MonoBehaviour
                     anim.SetBool("isWalking", true);
                 }
                 stepCounter++;
-                if(stepCounter > 1)
+                if (stepCounter > 1)
                 {
                     moveTimer = speedOfTimers;
                     stepCounter = 0;
                     anim.SetBool("isWalking", false);
                 }
-                
+
             }
             if (dist < 2.0f)
             {
@@ -186,23 +185,23 @@ public class EnemyController : MonoBehaviour
                         randomNumber = 0;
                         break;
                 }
-            }if(dist > 3.0f)
+            }
+            if (dist > 3.0f)
             {
                 switch (randomNumber)
                 {
                     case 6:
-                        if(fireballTimer < 0)
+                        if (fireballTimer < 0)
                         {
                             ShootFireBall();
-                            fireballTimer = speedOfTimers; 
+                            fireballTimer = speedOfTimers;
                             randomNumber = 0;
                         }
-                            
+
                         break;
                     case 7:
                         //BlockPlayer
                         BlockPlayer();
-                        enemyBlockBar.blockCounter--;
                         randomNumber = 0;
                         break;
 
@@ -261,16 +260,11 @@ public class EnemyController : MonoBehaviour
         randomNumber = 0;
     }
 
-    void EndBlock()
-    {
-        enemyBlockBar.blockCounter--;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Fireball")
+        if (collision.gameObject.tag == "Fireball")
         {
-            if(!isBlocking)
+            if (!isBlocking)
                 enemyHealthBar.enemyHealthLevel -= 1;
             Destroy(collision.gameObject);
         }
