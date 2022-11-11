@@ -700,6 +700,7 @@ MonoBehaviour:
   punchSound: {fileID: 8300000, guid: 1bf24f1b6a514784fbc50e5f28a95006, type: 3}
   kickSound: {fileID: 8300000, guid: 85490bfec69e5164fb8c348008495704, type: 3}
   enemyFireballSound: {fileID: 8300000, guid: 1bf24f1b6a514784fbc50e5f28a95006, type: 3}
+  blockCounterLocal: 3
   isBlocking: 0
   blockTimer: 0
   punchTimer: 0
@@ -872,6 +873,7 @@ MonoBehaviour:
   blockThreeFull: 0
   canBlock: 0
   blockCounter: 0
+  SwitchCounted: 0
 --- !u!4 &605742411
 Transform:
   m_ObjectHideFlags: 0
@@ -1537,6 +1539,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &995078569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 995078570}
+  m_Layer: 6
+  m_Name: LightningPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &995078570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995078569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.64, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 540503819}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1101269027
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2674,37 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+--- !u!1 &2011188472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2011188473}
+  m_Layer: 7
+  m_Name: LightningPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2011188473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011188472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2037276826}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2037276826 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3415814961313376707, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
@@ -3024,6 +3088,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 85490bfec69e5164fb8c348008495704, type: 3}
     - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: lightning
+      value: 
+      objectReference: {fileID: 9073749677538865209, guid: ac68d3e02dedb86438301ea47ca2259e, type: 3}
+    - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -3059,6 +3127,10 @@ PrefabInstance:
       propertyPath: whatIsEnemy.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
+      propertyPath: enemyLightningPoint
+      value: 
+      objectReference: {fileID: 995078570}
     - target: {fileID: 3415814961313376706, guid: e291eb5e3c8a4a44fa343e4a2649cb54, type: 3}
       propertyPath: slantedHealthBar.Array.size
       value: 11

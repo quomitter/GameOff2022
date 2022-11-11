@@ -41,7 +41,12 @@ public class PlayerController : MonoBehaviour
     public Button tryAgain;
     public bool gameIsActive;
     public float leftButtonTimer;
-    public float rightButtonTimer; 
+    public float rightButtonTimer;
+    public GameObject lightning;
+    public Transform enemyLightningPoint;
+    public float upTimer;
+    public float downTimer;
+    public float lightningTimer; 
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +59,9 @@ public class PlayerController : MonoBehaviour
         winOrLoseCanvas.enabled = false;
         gameIsActive = true; 
         leftButtonTimer = 0;
-        rightButtonTimer = 0;  
+        rightButtonTimer = 0; 
+        upTimer = 0;
+        downTimer = 0;
     }
 
     // Update is called once per frame
@@ -62,6 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         leftButtonTimer -= Time.deltaTime;
         rightButtonTimer -= Time.deltaTime;
+        upTimer -= Time.deltaTime;
+        downTimer -= Time.deltaTime;
 
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
@@ -89,6 +98,7 @@ public class PlayerController : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.W) && isGrounded))
             {
                 PlayerJump();
+                upTimer = 2.0f;
             }
             if (Input.GetKeyUp(KeyCode.W))
             {
@@ -120,17 +130,22 @@ public class PlayerController : MonoBehaviour
                 isShooting = true;
                 isShooting = false; 
             }
+            if((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)){
+                RainLightning(); 
+            }
 
             switch (Input.GetAxis("Vertical"))
             {
                 case 0:
                     anim.SetBool("isCrouching", false);
                     break;
-                case float i when i > 0 && i <= 1:
+                case float i when i == 1:
                     //PlayerJump();
+                    upTimer = 2.0f;
                     break; 
-                case float i when i < 0 && i >= -1:
+                case float i when i == -1:
                     anim.SetBool("isCrouching", true);
+                    downTimer = 2.0f;
                     break; 
        
             }
@@ -138,6 +153,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S))
             {
                 anim.SetBool("isCrouching", true);
+                downTimer = 2.0f;
             }
             if (Input.GetKeyUp(KeyCode.S))
             {
@@ -302,6 +318,19 @@ public class PlayerController : MonoBehaviour
         Destroy(clone.gameObject, 1f);
         leftButtonTimer = 0;
         rightButtonTimer = 0;
+    }
+
+    void RainLightning()
+    {
+        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+        GameObject clone = Instantiate(lightning, enemyLightningPoint.position, enemyLightningPoint.rotation);
+        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>());
+        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+        Destroy(clone.gameObject, 0.4f);
+        upTimer = 0;
+        downTimer = 0;
+        if(!enemyController.isBlocking)
+            enemyHealthBar.enemyHealthLevel -= 1;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -41,6 +41,9 @@ public class EnemyController : MonoBehaviour
     public float fireballTimer;
     public float speedOfTimers;
     public int stepCounter;
+    public GameObject lightning;
+    public Transform playerLightningPoint;
+
 
     private Vector2 Position
     {
@@ -121,7 +124,7 @@ public class EnemyController : MonoBehaviour
 
             if (randomTimer < 0)
             {
-                randomNumber = Random.Range(1, 8);
+                randomNumber = Random.Range(1, 9);
                 randomTimer = speedOfTimers;
             }
 
@@ -199,6 +202,10 @@ public class EnemyController : MonoBehaviour
                         BlockPlayer();
                         randomNumber = 0;
                         break;
+                    case 8:
+                        RainLightning();
+                        randomNumber = 0; 
+                        break;
 
                 }
             }
@@ -253,6 +260,16 @@ public class EnemyController : MonoBehaviour
         shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
         Destroy(clone.gameObject, 1f);
         randomNumber = 0;
+    }
+    void RainLightning()
+    {
+        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+        GameObject clone = Instantiate(lightning, playerLightningPoint.position, playerLightningPoint.rotation);
+        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
+        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+        Destroy(clone.gameObject, 0.4f);
+        if(!playerController.isBlocking)
+            playerHealthBar.playerHealthLevel -= 1;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
