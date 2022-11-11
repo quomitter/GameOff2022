@@ -710,6 +710,8 @@ MonoBehaviour:
   fireballTimer: 0
   speedOfTimers: 0
   stepCounter: 0
+  lightning: {fileID: 9073749677538865209, guid: ac68d3e02dedb86438301ea47ca2259e, type: 3}
+  playerLightningPoint: {fileID: 2011188473}
 --- !u!114 &540503821
 MonoBehaviour:
   m_ObjectHideFlags: 0
