@@ -91,9 +91,9 @@ public class PlayerController : MonoBehaviour
         if (gameIsActive)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
-            if(Input.GetButtonDown("Jump") && (isGrounded))
+            if (Input.GetButtonDown("Jump") && (isGrounded))
             {
-                PlayerJump(); 
+                PlayerJump();
             }
             if ((Input.GetKeyDown(KeyCode.W) && isGrounded))
             {
@@ -104,34 +104,34 @@ public class PlayerController : MonoBehaviour
             {
 
             }
-            switch(Input.GetAxis("Horizontal"))
+            switch (Input.GetAxis("Horizontal"))
             {
                 case 0:
                     anim.SetBool("isWalking", false);
-                    break; 
+                    break;
                 case float i when i > 0 && i <= 1:
                     anim.SetBool("isWalking", true);
                     if (!facingRight)
                         FlipX();
                     rb.velocity += new Vector2(1 * moveDampener, 0);
-                    rightButtonTimer = 2.0f; 
+                    rightButtonTimer = 2.0f;
                     break;
                 case float i when i < 0 && i >= -1:
                     anim.SetBool("isWalking", true);
                     if (facingRight)
                         FlipX();
                     rb.velocity += new Vector2(-1 * moveDampener, 0);
-                    leftButtonTimer = 2.0f; 
-                    break; 
+                    leftButtonTimer = 2.0f;
+                    break;
             }
-            if((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
+            if ((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
             {
                 ShootFireBall();
                 isShooting = true;
-                isShooting = false; 
+                isShooting = false;
             }
-            if((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)){
-                RainLightning(); 
+            if ((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)) {
+                RainLightning();
             }
 
             switch (Input.GetAxis("Vertical"))
@@ -142,12 +142,12 @@ public class PlayerController : MonoBehaviour
                 case float i when i == 1:
                     //PlayerJump();
                     upTimer = 2.0f;
-                    break; 
+                    break;
                 case float i when i == -1:
                     anim.SetBool("isCrouching", true);
                     downTimer = 2.0f;
-                    break; 
-       
+                    break;
+
             }
 
             if (Input.GetKeyDown(KeyCode.S))
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
                 if (!facingRight)
                     FlipX();
                 rb.velocity += new Vector2(1 * moveDampener, 0);
-                rightButtonTimer = 2.0f; 
+                rightButtonTimer = 2.0f;
             }
             if (Input.GetKeyUp(KeyCode.D))
             {
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
                 if (facingRight)
                     FlipX();
                 rb.velocity += new Vector2(-1 * moveDampener, 0);
-                leftButtonTimer = 2.0f; 
+                leftButtonTimer = 2.0f;
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isShooting && !isKicking)
-            {  
+            {
                 PunchEnemy();
                 isPunching = true;
             }
@@ -205,24 +205,24 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 anim.SetBool("isPunching", false);
-                isPunching = false; 
+                isPunching = false;
 
             }
             if ((Input.GetButtonDown("Fire2") && !isBlocking && !isShooting && !isPunching) || (!isBlocking && !isShooting && !isPunching && Input.GetMouseButtonDown(1)))
             {
                 KickEnemy();
-                isKicking = true; 
+                isKicking = true;
             }
             if (Input.GetButtonUp("Fire2") || Input.GetMouseButtonUp(1))
             {
                 anim.SetBool("isKicking", false);
-                isKicking = false; 
+                isKicking = false;
             }
 
             if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isShooting && !isPunching)
-            {  
+            {
                 KickEnemy();
-                isKicking = true; 
+                isKicking = true;
             }
             if (Input.GetKeyUp(KeyCode.LeftControl))
             {
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
                 isKicking = false;
             }
 
-            if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching))
+            if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -254,6 +254,15 @@ public class PlayerController : MonoBehaviour
                 if (playerBlockBar.blockCounter >= 0)
                     playerBlockBar.blockCounter--;
             }
+            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking))
+            {
+                BlowBack(); 
+            }
+            if(Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
+            {
+                BlowBack(); 
+            }
+
         }
     }
 
@@ -331,6 +340,24 @@ public class PlayerController : MonoBehaviour
         downTimer = 0;
         if(!enemyController.isBlocking)
             enemyHealthBar.enemyHealthLevel -= 1;
+    }
+
+    void BlowBack()
+    {
+        
+        if (enemyController.facingRight)
+        {
+            enemyController.enemyRB.AddForce(new Vector2(-400, 250));
+            enemyController.isInKnockback = true;
+            enemyController.knockbackTimer = 1f;
+        }
+        if (!enemyController.facingRight)
+        {
+            enemyController.enemyRB.AddForce(new Vector2(400, 250));
+            enemyController.isInKnockback = true;
+            enemyController.knockbackTimer = 1f;
+        }
+            
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

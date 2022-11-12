@@ -43,6 +43,8 @@ public class EnemyController : MonoBehaviour
     public int stepCounter;
     public GameObject lightning;
     public Transform playerLightningPoint;
+    public bool isInKnockback;
+    public float knockbackTimer; 
 
 
     private Vector2 Position
@@ -73,6 +75,7 @@ public class EnemyController : MonoBehaviour
         randomTimer = speedOfTimers;
         moveTimer = speedOfTimers;
         fireballTimer = speedOfTimers;
+        knockbackTimer = 0;
 
     }
 
@@ -87,6 +90,8 @@ public class EnemyController : MonoBehaviour
             randomTimer -= Time.deltaTime;
             moveTimer -= Time.deltaTime;
             fireballTimer -= Time.deltaTime;
+            knockbackTimer -= Time.deltaTime; 
+
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
             {
@@ -124,8 +129,12 @@ public class EnemyController : MonoBehaviour
 
             if (randomTimer < 0)
             {
-                randomNumber = Random.Range(1, 9);
+                randomNumber = Random.Range(1, 10);
                 randomTimer = speedOfTimers;
+            }
+            if(knockbackTimer < 0)
+            {
+                isInKnockback = false;
             }
 
 
@@ -134,7 +143,7 @@ public class EnemyController : MonoBehaviour
             {
 
                 float step = speed * Time.deltaTime;
-                if (dist >= diststop)
+                if (dist >= diststop && !isInKnockback)
                 {
                     Position = Vector2.MoveTowards(Position, playerPosition.position, step);
                     enemyRB.MovePosition(Position);
@@ -182,6 +191,10 @@ public class EnemyController : MonoBehaviour
                         BlockPlayer();
                         randomNumber = 0;
                         break;
+                    case 9:
+                        BlowBack();
+                        randomNumber = 0;
+                        break; 
                 }
             }
             if (dist > 3.0f)
@@ -206,6 +219,7 @@ public class EnemyController : MonoBehaviour
                         RainLightning();
                         randomNumber = 0; 
                         break;
+              
 
                 }
             }
@@ -270,6 +284,24 @@ public class EnemyController : MonoBehaviour
         Destroy(clone.gameObject, 0.4f);
         if(!playerController.isBlocking)
             playerHealthBar.playerHealthLevel -= 1;
+    }
+
+    void BlowBack()
+    {
+        
+        if (playerController.facingRight)
+        {
+            
+            playerController.rb.AddForce(new Vector2(-400, 250));
+
+        }
+        if (!playerController.facingRight)
+        {
+            
+            playerController.rb.AddForce(new Vector2(400, 250));
+
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
