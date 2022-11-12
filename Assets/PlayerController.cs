@@ -101,8 +101,13 @@ public class PlayerController : MonoBehaviour
             if (knockbackTimer < 0)
             {
                 isInKnockback = false;
+                anim.SetBool("isDazed", false);
             }
 
+            if (isInKnockback)
+            {
+                anim.SetBool("isDazed", true);
+            }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
             if (Input.GetButtonDown("Jump") && (isGrounded))
@@ -378,12 +383,14 @@ public class PlayerController : MonoBehaviour
             enemyController.enemyRB.AddForce(new Vector2(-400, 250));
             enemyController.isInKnockback = true;
             enemyController.knockbackTimer = 1f;
+            enemyController.anim.SetBool("isDazed", true);
         }
         if (!enemyController.facingRight)
         {
             enemyController.enemyRB.AddForce(new Vector2(400, 250));
             enemyController.isInKnockback = true;
             enemyController.knockbackTimer = 1f;
+            enemyController.anim.SetBool("isDazed", true);
         }
 
     }

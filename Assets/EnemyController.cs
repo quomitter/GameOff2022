@@ -135,6 +135,7 @@ public class EnemyController : MonoBehaviour
             if(knockbackTimer < 0)
             {
                 isInKnockback = false;
+                anim.SetBool("isDazed", false);
             }
 
 
@@ -295,6 +296,8 @@ public class EnemyController : MonoBehaviour
             playerController.rb.AddForce(new Vector2(-400, 250));
             playerController.isInKnockback = true;
             playerController.knockbackTimer = 1f;
+            playerController.anim.SetBool("isDazed", true);
+
 
         }
         if (!playerController.facingRight)
@@ -302,7 +305,8 @@ public class EnemyController : MonoBehaviour
             
             playerController.rb.AddForce(new Vector2(400, 250));
             playerController.isInKnockback = true;
-            playerController.knockbackTimer = 1f; 
+            playerController.knockbackTimer = 1f;
+            playerController.anim.SetBool("isDazed", true);
 
         }
 
