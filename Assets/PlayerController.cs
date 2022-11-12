@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         upTimer = 0;
         downTimer = 0;
         knockbackTimer = 0;
+        Time.timeScale = 1; 
     }
 
     // Update is called once per frame
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
             winOrLose.text = "You Lost";
             gameIsActive = false;
             playerHealthBar.playerSpriteRenderer.sprite = playerHealthBar.playerHealthBar[0];
+            Time.timeScale = 0; 
         }
         if (enemyHealthBar.enemyHealthLevel <= 0)
         {
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
             winOrLose.text = "You Won";
             gameIsActive = false;
             enemyHealthBar.enemySpriteRenderer.sprite = enemyHealthBar.enemyHealthBar[0];
+            Time.timeScale = 0; 
         }
 
         if (gameIsActive)
