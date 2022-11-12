@@ -46,7 +46,9 @@ public class PlayerController : MonoBehaviour
     public Transform enemyLightningPoint;
     public float upTimer;
     public float downTimer;
-    public float lightningTimer; 
+    public float lightningTimer;
+    public bool isInKnockback; 
+    public float knockbackTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour
         rightButtonTimer = 0; 
         upTimer = 0;
         downTimer = 0;
+        knockbackTimer = 0;
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
         rightButtonTimer -= Time.deltaTime;
         upTimer -= Time.deltaTime;
         downTimer -= Time.deltaTime;
+        knockbackTimer -= Time.deltaTime;
 
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
@@ -90,6 +94,11 @@ public class PlayerController : MonoBehaviour
 
         if (gameIsActive)
         {
+            if(knockbackTimer < 0)
+            {
+                isInKnockback = false;
+            }
+
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
             if (Input.GetButtonDown("Jump") && (isGrounded))
             {

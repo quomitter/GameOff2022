@@ -293,12 +293,16 @@ public class EnemyController : MonoBehaviour
         {
             
             playerController.rb.AddForce(new Vector2(-400, 250));
+            playerController.isInKnockback = true;
+            playerController.knockbackTimer = 1f;
 
         }
         if (!playerController.facingRight)
         {
             
             playerController.rb.AddForce(new Vector2(400, 250));
+            playerController.isInKnockback = true;
+            playerController.knockbackTimer = 1f; 
 
         }
 
