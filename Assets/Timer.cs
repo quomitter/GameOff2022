@@ -25,6 +25,13 @@ public class Timer : MonoBehaviour
         {
             countDownTimer -= Time.deltaTime;
             timer.text = System.Convert.ToString(Mathf.RoundToInt(countDownTimer));
+            if(countDownTimer <= 0)
+            {
+                Time.timeScale = 0;
+                playerController.winOrLose.text = "Draw";
+                playerController.gameIsActive = false;
+                playerController.winOrLoseCanvas.enabled = true;
+            }
         }
     }
 }
