@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     public float lightningTimer;
     public bool isInKnockback;
     public float knockbackTimer;
+    public float knockbackCoolDown;
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +67,8 @@ public class PlayerController : MonoBehaviour
         upTimer = 0;
         downTimer = 0;
         knockbackTimer = 0;
-        Time.timeScale = 1; 
+        knockbackCoolDown = 0;
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
         upTimer -= Time.deltaTime;
         downTimer -= Time.deltaTime;
         knockbackTimer -= Time.deltaTime;
+        knockbackCoolDown -= Time.deltaTime;
 
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
@@ -85,7 +88,7 @@ public class PlayerController : MonoBehaviour
             winOrLose.text = "You Lost";
             gameIsActive = false;
             playerHealthBar.playerSpriteRenderer.sprite = playerHealthBar.playerHealthBar[0];
-            Time.timeScale = 0; 
+            Time.timeScale = 0;
         }
         if (enemyHealthBar.enemyHealthLevel <= 0)
         {
@@ -93,7 +96,7 @@ public class PlayerController : MonoBehaviour
             winOrLose.text = "You Won";
             gameIsActive = false;
             enemyHealthBar.enemySpriteRenderer.sprite = enemyHealthBar.enemyHealthBar[0];
-            Time.timeScale = 0; 
+            Time.timeScale = 0;
         }
 
         if (gameIsActive)
@@ -147,13 +150,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if ((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
+            if ((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking && !isInKnockback) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isInKnockback))
             {
                 ShootFireBall();
                 isShooting = true;
                 isShooting = false;
             }
-            if ((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
+            if ((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking && !isInKnockback) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isInKnockback))
             {
                 RainLightning();
             }
@@ -213,7 +216,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if ((Input.GetButtonDown("Fire1") && !isKicking && !isShooting && !isBlocking) || (Input.GetMouseButtonDown(0) && !isKicking && !isShooting && !isBlocking))
+            if ((Input.GetButtonDown("Fire1") && !isKicking && !isShooting && !isBlocking && !isInKnockback) || (Input.GetMouseButtonDown(0) && !isKicking && !isShooting && !isBlocking && !isInKnockback))
             {
                 PunchEnemy();
                 isPunching = true;
@@ -224,7 +227,7 @@ public class PlayerController : MonoBehaviour
                 isPunching = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isShooting && !isKicking)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isShooting && !isKicking && !isInKnockback)
             {
                 PunchEnemy();
                 isPunching = true;
@@ -236,7 +239,7 @@ public class PlayerController : MonoBehaviour
                 isPunching = false;
 
             }
-            if ((Input.GetButtonDown("Fire2") && !isBlocking && !isShooting && !isPunching) || (!isBlocking && !isShooting && !isPunching && Input.GetMouseButtonDown(1)))
+            if ((Input.GetButtonDown("Fire2") && !isBlocking && !isShooting && !isPunching && !isInKnockback) || (!isBlocking && !isShooting && !isInKnockback && !isPunching && Input.GetMouseButtonDown(1)))
             {
                 KickEnemy();
                 isKicking = true;
@@ -247,7 +250,7 @@ public class PlayerController : MonoBehaviour
                 isKicking = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isShooting && !isPunching)
+            if (Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isShooting && !isPunching && !isInKnockback)
             {
                 KickEnemy();
                 isKicking = true;
@@ -258,7 +261,7 @@ public class PlayerController : MonoBehaviour
                 isKicking = false;
             }
 
-            if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
+            if ((Input.GetButtonDown("Fire3") && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching && !isInKnockback) || (Input.GetMouseButtonDown(2) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching && !isInKnockback) || (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking && !isInKnockback))
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -270,7 +273,7 @@ public class PlayerController : MonoBehaviour
                 if (playerBlockBar.blockCounter >= 0)
                     playerBlockBar.blockCounter--;
             }
-            if (Input.GetKey(KeyCode.Space) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching)
+            if (Input.GetKey(KeyCode.Space) && playerBlockBar.canBlock && !isBlocking && !isShooting && !isPunching && !isInKnockback)
             {
                 anim.SetBool("isBlocking", true);
                 isBlocking = true;
@@ -282,13 +285,15 @@ public class PlayerController : MonoBehaviour
                 if (playerBlockBar.blockCounter >= 0)
                     playerBlockBar.blockCounter--;
             }
-            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking))
+            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking && !isInKnockback) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking && !isInKnockback))
             {
                 BlowBack();
+                
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isInKnockback)
             {
                 BlowBack();
+                
             }
             //if (Input.anyKey)
             //{
@@ -377,21 +382,26 @@ public class PlayerController : MonoBehaviour
 
     void BlowBack()
     {
+        if (knockbackCoolDown <= 0)
+        {
+            if (enemyController.facingRight)
+            {
+                enemyController.enemyRB.AddForce(new Vector2(-400, 250));
+                enemyController.isInKnockback = true;
+                enemyController.knockbackTimer = 1f;
+                enemyController.anim.SetBool("isDazed", true);
+                
+            }
+            if (!enemyController.facingRight)
+            {
+                enemyController.enemyRB.AddForce(new Vector2(400, 250));
+                enemyController.isInKnockback = true;
+                enemyController.knockbackTimer = 1f;
+                enemyController.anim.SetBool("isDazed", true);
+            }
+            knockbackCoolDown = 1f;
+        }
 
-        if (enemyController.facingRight)
-        {
-            enemyController.enemyRB.AddForce(new Vector2(-400, 250));
-            enemyController.isInKnockback = true;
-            enemyController.knockbackTimer = 1f;
-            enemyController.anim.SetBool("isDazed", true);
-        }
-        if (!enemyController.facingRight)
-        {
-            enemyController.enemyRB.AddForce(new Vector2(400, 250));
-            enemyController.isInKnockback = true;
-            enemyController.knockbackTimer = 1f;
-            enemyController.anim.SetBool("isDazed", true);
-        }
 
     }
 

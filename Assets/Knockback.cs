@@ -39,6 +39,7 @@ public class Knockback : MonoBehaviour
             {
                 enemyRigidbody2D.AddForce(new Vector2(200, 50));
                 enemyController.isInKnockback = true;
+                enemyController.anim.SetBool("isDazed", true);
                 enemyController.knockbackTimer = 1f; 
             }
 
@@ -46,6 +47,7 @@ public class Knockback : MonoBehaviour
             {
                 enemyRigidbody2D.AddForce(new Vector2(-200, 50));
                 enemyController.isInKnockback = true;
+                enemyController.anim.SetBool("isDazed", true);
                 enemyController.knockbackTimer = 1f;
             }
 

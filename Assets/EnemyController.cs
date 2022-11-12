@@ -165,19 +165,19 @@ public class EnemyController : MonoBehaviour
                 {
                     case 1:
                         //PunchPlayer
-                        if (!isBlocking)
+                        if (!isBlocking || !isInKnockback)
                             PunchPlayer();
                         randomNumber = 0;
                         break;
                     case 2:
                         //Kick player
-                        if (!isBlocking)
+                        if (!isBlocking || !isInKnockback)
                             KickPlayer();
                         randomNumber = 0;
                         break;
                     case 3:
                         //Punch player
-                        if (!isBlocking)
+                        if (!isBlocking || !isInKnockback)
                             PunchPlayer();
                         randomNumber = 0;
                         break;
@@ -188,12 +188,13 @@ public class EnemyController : MonoBehaviour
                         randomNumber = 0;
                         break;
                     case 5:
-                        //BlockPlayer
-                        BlockPlayer();
+                        if(!isInKnockback)
+                            BlockPlayer();
                         randomNumber = 0;
                         break;
                     case 9:
-                        BlowBack();
+                        if (!isInKnockback)
+                            BlowBack();
                         randomNumber = 0;
                         break; 
                 }
@@ -205,19 +206,21 @@ public class EnemyController : MonoBehaviour
                     case 6:
                         if (fireballTimer < 0)
                         {
-                            ShootFireBall();
+                            if(!isInKnockback)
+                                ShootFireBall();
                             fireballTimer = speedOfTimers;
                             randomNumber = 0;
                         }
 
                         break;
                     case 7:
-                        //BlockPlayer
-                        BlockPlayer();
+                        if(isInKnockback)
+                            BlockPlayer();
                         randomNumber = 0;
                         break;
                     case 8:
-                        RainLightning();
+                        if(!isInKnockback)
+                            RainLightning();
                         randomNumber = 0; 
                         break;
               
