@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    //public List<string> keyCodes;
     public GameObject fireball;
     public Animator anim;
     public Rigidbody2D rb;
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour
             {
                 isInKnockback = false;
             }
+
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
             if (Input.GetButtonDown("Jump") && (isGrounded))
@@ -283,6 +285,11 @@ public class PlayerController : MonoBehaviour
             {
                 BlowBack();
             }
+            //if (Input.anyKey)
+            //{
+            //    if (Input.inputString != null && Input.inputString != "")
+            //        keyCodes.Add(Input.inputString);
+            //}
 
         }
     }
