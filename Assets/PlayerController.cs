@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour
                 if (playerBlockBar.blockCounter >= 0)
                     playerBlockBar.blockCounter--;
             }
-            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking && !isInKnockback) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking && !isInKnockback))
+            if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking))
             {
                 BlowBack();
                 
