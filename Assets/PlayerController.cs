@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject fireball; 
+    public GameObject fireball;
     public Animator anim;
     public Rigidbody2D rb;
     public Transform groundCheck;
@@ -31,12 +31,12 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip punchSound;
     public AudioClip kickSound;
-    public AudioClip enemyFireballSound; 
+    public AudioClip enemyFireballSound;
     public bool isBlocking;
     public bool isPunching;
     public bool isKicking;
     public bool isShooting;
-    public Canvas winOrLoseCanvas; 
+    public Canvas winOrLoseCanvas;
     public TMP_Text winOrLose;
     public Button tryAgain;
     public bool gameIsActive;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public float upTimer;
     public float downTimer;
     public float lightningTimer;
-    public bool isInKnockback; 
+    public bool isInKnockback;
     public float knockbackTimer;
 
     // Start is called before the first frame update
@@ -59,9 +59,9 @@ public class PlayerController : MonoBehaviour
         enemyController = FindObjectOfType<EnemyController>();
         audioSource = GetComponent<AudioSource>();
         winOrLoseCanvas.enabled = false;
-        gameIsActive = true; 
+        gameIsActive = true;
         leftButtonTimer = 0;
-        rightButtonTimer = 0; 
+        rightButtonTimer = 0;
         upTimer = 0;
         downTimer = 0;
         knockbackTimer = 0;
@@ -79,14 +79,14 @@ public class PlayerController : MonoBehaviour
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
         {
-            winOrLoseCanvas.enabled = true; 
+            winOrLoseCanvas.enabled = true;
             winOrLose.text = "You Lost";
             gameIsActive = false;
             playerHealthBar.playerSpriteRenderer.sprite = playerHealthBar.playerHealthBar[0];
         }
         if (enemyHealthBar.enemyHealthLevel <= 0)
         {
-            winOrLoseCanvas.enabled = true; 
+            winOrLoseCanvas.enabled = true;
             winOrLose.text = "You Won";
             gameIsActive = false;
             enemyHealthBar.enemySpriteRenderer.sprite = enemyHealthBar.enemyHealthBar[0];
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         if (gameIsActive)
         {
-            if(knockbackTimer < 0)
+            if (knockbackTimer < 0)
             {
                 isInKnockback = false;
             }
@@ -113,51 +113,60 @@ public class PlayerController : MonoBehaviour
             {
 
             }
-            switch (Input.GetAxis("Horizontal"))
+            if (!isInKnockback)
             {
-                case 0:
-                    anim.SetBool("isWalking", false);
-                    break;
-                case float i when i > 0 && i <= 1:
-                    anim.SetBool("isWalking", true);
-                    if (!facingRight)
-                        FlipX();
-                    rb.velocity += new Vector2(1 * moveDampener, 0);
-                    rightButtonTimer = 2.0f;
-                    break;
-                case float i when i < 0 && i >= -1:
-                    anim.SetBool("isWalking", true);
-                    if (facingRight)
-                        FlipX();
-                    rb.velocity += new Vector2(-1 * moveDampener, 0);
-                    leftButtonTimer = 2.0f;
-                    break;
+                switch (Input.GetAxis("Horizontal"))
+                {
+                    case 0:
+                        anim.SetBool("isWalking", false);
+                        break;
+                    case float i when i > 0 && i <= 1:
+                        anim.SetBool("isWalking", true);
+                        if (!facingRight)
+                            FlipX();
+                        rb.velocity += new Vector2(1 * moveDampener, 0);
+                        rightButtonTimer = 2.0f;
+                        break;
+                    case float i when i < 0 && i >= -1:
+                        anim.SetBool("isWalking", true);
+                        if (facingRight)
+                            FlipX();
+                        rb.velocity += new Vector2(-1 * moveDampener, 0);
+                        leftButtonTimer = 2.0f;
+                        break;
+                }
             }
+
             if ((rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (rightButtonTimer > 0 && leftButtonTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
             {
                 ShootFireBall();
                 isShooting = true;
                 isShooting = false;
             }
-            if ((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking)) {
+            if ((upTimer > 0 && downTimer > 0 && Input.GetButtonDown("Fire1") && !isBlocking) || (upTimer > 0 && downTimer > 0 && Input.GetKeyDown(KeyCode.LeftShift) && !isBlocking))
+            {
                 RainLightning();
             }
 
-            switch (Input.GetAxis("Vertical"))
+            if (!isInKnockback)
             {
-                case 0:
-                    anim.SetBool("isCrouching", false);
-                    break;
-                case float i when i == 1:
-                    //PlayerJump();
-                    upTimer = 2.0f;
-                    break;
-                case float i when i == -1:
-                    anim.SetBool("isCrouching", true);
-                    downTimer = 2.0f;
-                    break;
+                switch (Input.GetAxis("Vertical"))
+                {
+                    case 0:
+                        anim.SetBool("isCrouching", false);
+                        break;
+                    case float i when i == 1:
+                        //PlayerJump();
+                        upTimer = 2.0f;
+                        break;
+                    case float i when i == -1:
+                        anim.SetBool("isCrouching", true);
+                        downTimer = 2.0f;
+                        break;
 
+                }
             }
+
 
             if (Input.GetKeyDown(KeyCode.S))
             {
@@ -168,7 +177,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool("isCrouching", false);
             }
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) && !isInKnockback)
             {
                 anim.SetBool("isWalking", true);
                 if (!facingRight)
@@ -181,7 +190,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("isWalking", false);
 
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) && !isInKnockback)
             {
                 anim.SetBool("isWalking", true);
                 if (facingRight)
@@ -265,11 +274,11 @@ public class PlayerController : MonoBehaviour
             }
             if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking))
             {
-                BlowBack(); 
+                BlowBack();
             }
-            if(Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking)
             {
-                BlowBack(); 
+                BlowBack();
             }
 
         }
@@ -279,9 +288,9 @@ public class PlayerController : MonoBehaviour
     {
         facingRight = !facingRight;
         Quaternion theRotaion = transform.localRotation;
-        if(facingRight)
+        if (facingRight)
             theRotaion = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-        if(!facingRight)
+        if (!facingRight)
             theRotaion = Quaternion.Euler(new Vector3(180f, 0f, 180f));
         transform.localRotation = theRotaion;
     }
@@ -322,7 +331,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerJump()
     {
-        if(isGrounded)
+        if (isGrounded)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
     }
 
@@ -347,13 +356,13 @@ public class PlayerController : MonoBehaviour
         Destroy(clone.gameObject, 0.4f);
         upTimer = 0;
         downTimer = 0;
-        if(!enemyController.isBlocking)
+        if (!enemyController.isBlocking)
             enemyHealthBar.enemyHealthLevel -= 1;
     }
 
     void BlowBack()
     {
-        
+
         if (enemyController.facingRight)
         {
             enemyController.enemyRB.AddForce(new Vector2(-400, 250));
@@ -366,14 +375,14 @@ public class PlayerController : MonoBehaviour
             enemyController.isInKnockback = true;
             enemyController.knockbackTimer = 1f;
         }
-            
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Fireball")
         {
-            if(!isBlocking)
+            if (!isBlocking)
                 playerHealthBar.playerHealthLevel -= 1;
             Destroy(collision.gameObject);
         }
