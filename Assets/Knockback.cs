@@ -25,10 +25,14 @@ public class Knockback : MonoBehaviour
             if (playerController.playerHit && enemyController.facingRight && gameObject.tag == "Player")
             {
                 playerRigidbody2D.AddForce(new Vector2(-200, 50));
+                playerController.isInKnockback = true;
+                playerController.knockbackTimer = 1f;
             }
             if (playerController.playerHit && !enemyController.facingRight && gameObject.tag == "Player")
             {
                 playerRigidbody2D.AddForce(new Vector2(200, 50));
+                playerController.isInKnockback = true;
+                playerController.knockbackTimer = 1f; 
             }
                 
             if (enemyController.enemyHit && playerController.facingRight && gameObject.tag == "Enemy")
