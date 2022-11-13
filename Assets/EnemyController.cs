@@ -40,11 +40,15 @@ public class EnemyController : MonoBehaviour
     public float moveTimer;
     public float fireballTimer;
     public float speedOfTimers;
+    public float easyTimer;
+    public float hardTimer;
     public int stepCounter;
     public GameObject lightning;
     public Transform playerLightningPoint;
     public bool isInKnockback;
-    public float knockbackTimer; 
+    public float knockbackTimer;
+    public string difficulty;
+    public Canvas difficultyCanvas;
 
 
     private Vector2 Position
@@ -69,6 +73,8 @@ public class EnemyController : MonoBehaviour
         enemyBlockBar = FindObjectOfType<EnemyBlockBar>();
         audioSource = GetComponent<AudioSource>();
         speedOfTimers = 0.2f;
+        easyTimer = 0.4f;
+        hardTimer = 0.1f; 
         blockTimer = speedOfTimers;
         punchTimer = speedOfTimers;
         kickTimer = speedOfTimers;
@@ -76,6 +82,8 @@ public class EnemyController : MonoBehaviour
         moveTimer = speedOfTimers;
         fireballTimer = speedOfTimers;
         knockbackTimer = 0;
+        difficulty = "Normal";
+        difficultyCanvas.enabled = true;
 
     }
 
@@ -109,14 +117,36 @@ public class EnemyController : MonoBehaviour
             if (punchTimer < 0)
             {
                 anim.SetBool("isPunching", false);
-                punchTimer = speedOfTimers;
+
+                if (difficulty == "Easy")
+                {
+                    punchTimer = easyTimer;
+                }
+                else if (difficulty == "Normal")
+                {
+                    punchTimer = speedOfTimers;
+                }
+                else if (difficulty == "Hard")
+                {
+                    punchTimer = hardTimer;
+                }
             }
 
 
             if (kickTimer < 0)
             {
                 anim.SetBool("isKicking", false);
-                kickTimer = speedOfTimers;
+                if(difficulty == "Easy")
+                {
+                    kickTimer = easyTimer;
+                }else if(difficulty == "Normal")
+                {
+                    kickTimer = speedOfTimers;
+                }
+                else if(difficulty == "Hard")
+                {
+                    kickTimer = hardTimer;
+                }
             }
 
 
@@ -124,13 +154,36 @@ public class EnemyController : MonoBehaviour
             {
                 anim.SetBool("isBlocking", false);
                 isBlocking = false;
-                blockTimer = speedOfTimers;
+                if (difficulty == "Easy")
+                {
+                    blockTimer = easyTimer;
+                }
+                else if (difficulty == "Normal")
+                {
+                    blockTimer = speedOfTimers;
+                }
+                else if (difficulty == "Hard")
+                {
+                    blockTimer = hardTimer;
+                }
             }
 
             if (randomTimer < 0)
             {
                 randomNumber = Random.Range(1, 10);
-                randomTimer = speedOfTimers;
+
+                if (difficulty == "Easy")
+                {
+                    randomTimer = easyTimer;
+                }
+                else if (difficulty == "Normal")
+                {
+                    randomTimer = speedOfTimers;
+                }
+                else if (difficulty == "Hard")
+                {
+                    randomTimer = hardTimer;
+                }
             }
             if(knockbackTimer < 0)
             {
@@ -313,6 +366,25 @@ public class EnemyController : MonoBehaviour
 
         }
 
+    }
+
+    public void SetEasy()
+    {
+        difficulty = "Easy";
+        playerController.gameIsActive = true;
+        difficultyCanvas.enabled = false;
+    }
+    public void SetNormal()
+    {
+        difficulty = "Normal";
+        playerController.gameIsActive = true;
+        difficultyCanvas.enabled = false;
+    }
+    public void SetHard()
+    {
+        difficulty = "Hard";
+        playerController.gameIsActive = true;
+        difficultyCanvas.enabled = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

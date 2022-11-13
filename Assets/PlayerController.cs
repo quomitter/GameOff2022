@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     public float knockbackTimer;
     public float knockbackCoolDown;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
         enemyController = FindObjectOfType<EnemyController>();
         audioSource = GetComponent<AudioSource>();
         winOrLoseCanvas.enabled = false;
-        gameIsActive = true;
+        gameIsActive = false;
         leftButtonTimer = 0;
         rightButtonTimer = 0;
         upTimer = 0;
@@ -404,6 +405,8 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
