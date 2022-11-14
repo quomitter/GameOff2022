@@ -51,6 +51,12 @@ public class PlayerController : MonoBehaviour
     public bool isInKnockback;
     public float knockbackTimer;
     public float knockbackCoolDown;
+    public Sprite[] fireballCooldown;
+    public Sprite[] lightningCooldown;
+    public SpriteRenderer fireballCooldownRenderer;
+    public SpriteRenderer lightningCooldownRenderer;
+    public float fireballCoolDownTimer;
+    public float lightningCoolDownTimer;
 
 
     // Start is called before the first frame update
@@ -70,6 +76,8 @@ public class PlayerController : MonoBehaviour
         knockbackTimer = 0;
         knockbackCoolDown = 0;
         Time.timeScale = 1;
+        fireballCoolDownTimer = 0;
+        lightningCoolDownTimer = 0;
     }
 
     // Update is called once per frame
@@ -81,6 +89,8 @@ public class PlayerController : MonoBehaviour
         downTimer -= Time.deltaTime;
         knockbackTimer -= Time.deltaTime;
         knockbackCoolDown -= Time.deltaTime;
+        fireballCoolDownTimer -= Time.deltaTime;
+        lightningCoolDownTimer -= Time.deltaTime;
 
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
@@ -111,6 +121,22 @@ public class PlayerController : MonoBehaviour
             if (isInKnockback)
             {
                 anim.SetBool("isDazed", true);
+            }
+            if (fireballCoolDownTimer <= 0)
+            {
+                fireballCooldownRenderer.sprite = fireballCooldown[0];
+            }
+            else
+            {
+                fireballCooldownRenderer.sprite = fireballCooldown[1];
+            }
+            if (lightningCoolDownTimer <= 0)
+            {
+                lightningCooldownRenderer.sprite = lightningCooldown[0];
+            }
+            else
+            {
+                lightningCooldownRenderer.sprite = lightningCooldown[1];
             }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -289,12 +315,12 @@ public class PlayerController : MonoBehaviour
             if ((Input.GetMouseButtonDown(0) && Input.GetMouseButtonDown(1) && !isBlocking) || (Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2") && !isBlocking))
             {
                 BlowBack();
-                
+
             }
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.LeftControl) && !isBlocking && !isInKnockback)
             {
                 BlowBack();
-                
+
             }
             //if (Input.anyKey)
             //{
@@ -358,27 +384,37 @@ public class PlayerController : MonoBehaviour
 
     void ShootFireBall()
     {
-        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
-        GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
-        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>());
-        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
-        Destroy(clone.gameObject, 1f);
-        leftButtonTimer = 0;
-        rightButtonTimer = 0;
+        if (fireballCoolDownTimer <= 0)
+        {
+            audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+            GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
+            Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>());
+            Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+            Destroy(clone.gameObject, 1f);
+            leftButtonTimer = 0;
+            rightButtonTimer = 0;
+            fireballCoolDownTimer = 1f;
+        }
+
     }
 
     void RainLightning()
     {
-        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
-        GameObject clone = Instantiate(lightning, enemyLightningPoint.position, enemyLightningPoint.rotation);
-        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>());
-        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        Destroy(clone.gameObject, 0.4f);
-        upTimer = 0;
-        downTimer = 0;
-        if (!enemyController.isBlocking)
-            enemyHealthBar.enemyHealthLevel -= 1;
+        if (lightningCoolDownTimer <= 0)
+        {
+            audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+            GameObject clone = Instantiate(lightning, enemyLightningPoint.position, enemyLightningPoint.rotation);
+            Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), rb.GetComponent<Collider2D>());
+            Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+            Destroy(clone.gameObject, 0.4f);
+            upTimer = 0;
+            downTimer = 0;
+            if (!enemyController.isBlocking)
+                enemyHealthBar.enemyHealthLevel -= 1;
+            lightningCoolDownTimer = 1f;
+        }
+
     }
 
     void BlowBack()
@@ -391,7 +427,7 @@ public class PlayerController : MonoBehaviour
                 enemyController.isInKnockback = true;
                 enemyController.knockbackTimer = 1f;
                 enemyController.anim.SetBool("isDazed", true);
-                
+
             }
             if (!enemyController.facingRight)
             {

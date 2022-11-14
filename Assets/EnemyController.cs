@@ -49,6 +49,12 @@ public class EnemyController : MonoBehaviour
     public float knockbackTimer;
     public string difficulty;
     public Canvas difficultyCanvas;
+    public Sprite[] fireballCooldown;
+    public Sprite[] lightningCooldown;
+    public SpriteRenderer fireballCooldownRenderer;
+    public SpriteRenderer lightningCooldownRenderer;
+    public float fireballCoolDownTimer;
+    public float lightningCoolDownTimer;
 
 
     private Vector2 Position
@@ -74,7 +80,7 @@ public class EnemyController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         speedOfTimers = 0.2f;
         easyTimer = 0.4f;
-        hardTimer = 0.1f; 
+        hardTimer = 0.1f;
         blockTimer = speedOfTimers;
         punchTimer = speedOfTimers;
         kickTimer = speedOfTimers;
@@ -98,7 +104,7 @@ public class EnemyController : MonoBehaviour
             randomTimer -= Time.deltaTime;
             moveTimer -= Time.deltaTime;
             fireballTimer -= Time.deltaTime;
-            knockbackTimer -= Time.deltaTime; 
+            knockbackTimer -= Time.deltaTime;
 
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
@@ -132,18 +138,35 @@ public class EnemyController : MonoBehaviour
                 }
             }
 
+            if (fireballCoolDownTimer <= 0)
+            {
+                fireballCooldownRenderer.sprite = fireballCooldown[0];
+            }
+            else
+            {
+                fireballCooldownRenderer.sprite = fireballCooldown[1];
+            }
+            if (lightningCoolDownTimer <= 0)
+            {
+                lightningCooldownRenderer.sprite = lightningCooldown[0];
+            }
+            else
+            {
+                lightningCooldownRenderer.sprite = lightningCooldown[1];
+            }
 
             if (kickTimer < 0)
             {
                 anim.SetBool("isKicking", false);
-                if(difficulty == "Easy")
+                if (difficulty == "Easy")
                 {
                     kickTimer = easyTimer;
-                }else if(difficulty == "Normal")
+                }
+                else if (difficulty == "Normal")
                 {
                     kickTimer = speedOfTimers;
                 }
-                else if(difficulty == "Hard")
+                else if (difficulty == "Hard")
                 {
                     kickTimer = hardTimer;
                 }
@@ -185,7 +208,7 @@ public class EnemyController : MonoBehaviour
                     randomTimer = hardTimer;
                 }
             }
-            if(knockbackTimer < 0)
+            if (knockbackTimer < 0)
             {
                 isInKnockback = false;
                 anim.SetBool("isDazed", false);
@@ -241,7 +264,7 @@ public class EnemyController : MonoBehaviour
                         randomNumber = 0;
                         break;
                     case 5:
-                        if(!isInKnockback)
+                        if (!isInKnockback)
                             BlockPlayer();
                         randomNumber = 0;
                         break;
@@ -249,7 +272,7 @@ public class EnemyController : MonoBehaviour
                         if (!isInKnockback)
                             BlowBack();
                         randomNumber = 0;
-                        break; 
+                        break;
                 }
             }
             if (dist > 3.0f)
@@ -259,7 +282,7 @@ public class EnemyController : MonoBehaviour
                     case 6:
                         if (fireballTimer < 0)
                         {
-                            if(!isInKnockback)
+                            if (!isInKnockback)
                                 ShootFireBall();
                             fireballTimer = speedOfTimers;
                             randomNumber = 0;
@@ -267,16 +290,16 @@ public class EnemyController : MonoBehaviour
 
                         break;
                     case 7:
-                        if(isInKnockback)
+                        if (isInKnockback)
                             BlockPlayer();
                         randomNumber = 0;
                         break;
                     case 8:
-                        if(!isInKnockback)
+                        if (!isInKnockback)
                             RainLightning();
-                        randomNumber = 0; 
+                        randomNumber = 0;
                         break;
-              
+
 
                 }
             }
@@ -324,31 +347,41 @@ public class EnemyController : MonoBehaviour
 
     void ShootFireBall()
     {
-        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
-        GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
-        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
-        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
-        Destroy(clone.gameObject, 1f);
-        randomNumber = 0;
+        if (fireballCoolDownTimer <= 0)
+        {
+            audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+            GameObject clone = Instantiate(fireball, punchCheck.position, punchCheck.rotation);
+            Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
+            Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+            shot.AddForce(transform.right * 30, ForceMode2D.Impulse);
+            Destroy(clone.gameObject, 1f);
+            randomNumber = 0;
+            fireballCoolDownTimer = 1f;
+        }
+
     }
     void RainLightning()
     {
-        audioSource.PlayOneShot(enemyFireballSound, 0.45f);
-        GameObject clone = Instantiate(lightning, playerLightningPoint.position, playerLightningPoint.rotation);
-        Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
-        Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
-        Destroy(clone.gameObject, 0.4f);
-        if(!playerController.isBlocking)
-            playerHealthBar.playerHealthLevel -= 1;
+        if (lightningCoolDownTimer <= 0)
+        {
+            audioSource.PlayOneShot(enemyFireballSound, 0.45f);
+            GameObject clone = Instantiate(lightning, playerLightningPoint.position, playerLightningPoint.rotation);
+            Physics2D.IgnoreCollision(clone.GetComponent<Collider2D>(), enemyRB.GetComponent<Collider2D>());
+            Rigidbody2D shot = clone.GetComponent<Rigidbody2D>();
+            Destroy(clone.gameObject, 0.4f);
+            if (!playerController.isBlocking)
+                playerHealthBar.playerHealthLevel -= 1;
+            lightningCoolDownTimer = 1f;
+        }
+
     }
 
     void BlowBack()
     {
-        
+
         if (playerController.facingRight)
         {
-            
+
             playerController.rb.AddForce(new Vector2(-400, 250));
             playerController.isInKnockback = true;
             playerController.knockbackTimer = 1f;
@@ -358,7 +391,7 @@ public class EnemyController : MonoBehaviour
         }
         if (!playerController.facingRight)
         {
-            
+
             playerController.rb.AddForce(new Vector2(400, 250));
             playerController.isInKnockback = true;
             playerController.knockbackTimer = 1f;
