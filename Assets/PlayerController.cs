@@ -53,10 +53,13 @@ public class PlayerController : MonoBehaviour
     public float knockbackCoolDown;
     public Sprite[] fireballCooldown;
     public Sprite[] lightningCooldown;
+    public Sprite[] dazeCooldown;
     public SpriteRenderer fireballCooldownRenderer;
     public SpriteRenderer lightningCooldownRenderer;
+    public SpriteRenderer dazeCooldownRenderer;
     public float fireballCoolDownTimer;
     public float lightningCoolDownTimer;
+    public float dazeCooldownTimer;
 
 
     // Start is called before the first frame update
@@ -78,6 +81,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         fireballCoolDownTimer = 0;
         lightningCoolDownTimer = 0;
+        dazeCooldownTimer = 0;
     }
 
     // Update is called once per frame
@@ -91,6 +95,7 @@ public class PlayerController : MonoBehaviour
         knockbackCoolDown -= Time.deltaTime;
         fireballCoolDownTimer -= Time.deltaTime;
         lightningCoolDownTimer -= Time.deltaTime;
+        dazeCooldownTimer -= Time.deltaTime;
 
         enemyController.enemyHit = false;
         if (playerHealthBar.playerHealthLevel <= 0)
@@ -137,6 +142,14 @@ public class PlayerController : MonoBehaviour
             else
             {
                 lightningCooldownRenderer.sprite = lightningCooldown[1];
+            }
+            if (dazeCooldownTimer <= 0)
+            {
+                dazeCooldownRenderer.sprite = dazeCooldown[0];
+            }
+            else
+            {
+                dazeCooldownRenderer.sprite = dazeCooldown[1];
             }
 
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, whatIsGround);
@@ -419,25 +432,30 @@ public class PlayerController : MonoBehaviour
 
     void BlowBack()
     {
-        if (knockbackCoolDown <= 0)
+        if (dazeCooldownTimer <= 0)
         {
-            if (enemyController.facingRight)
+            if (knockbackCoolDown <= 0)
             {
-                enemyController.enemyRB.AddForce(new Vector2(-400, 250));
-                enemyController.isInKnockback = true;
-                enemyController.knockbackTimer = 1f;
-                enemyController.anim.SetBool("isDazed", true);
+                if (enemyController.facingRight)
+                {
+                    enemyController.enemyRB.AddForce(new Vector2(-400, 250));
+                    enemyController.isInKnockback = true;
+                    enemyController.knockbackTimer = 1f;
+                    enemyController.anim.SetBool("isDazed", true);
 
+                }
+                if (!enemyController.facingRight)
+                {
+                    enemyController.enemyRB.AddForce(new Vector2(400, 250));
+                    enemyController.isInKnockback = true;
+                    enemyController.knockbackTimer = 1f;
+                    enemyController.anim.SetBool("isDazed", true);
+                }
+                knockbackCoolDown = 1f;
             }
-            if (!enemyController.facingRight)
-            {
-                enemyController.enemyRB.AddForce(new Vector2(400, 250));
-                enemyController.isInKnockback = true;
-                enemyController.knockbackTimer = 1f;
-                enemyController.anim.SetBool("isDazed", true);
-            }
-            knockbackCoolDown = 1f;
+            dazeCooldownTimer = 1f;
         }
+
 
 
     }

@@ -51,10 +51,13 @@ public class EnemyController : MonoBehaviour
     public Canvas difficultyCanvas;
     public Sprite[] fireballCooldown;
     public Sprite[] lightningCooldown;
+    public Sprite[] dazeCooldown;
     public SpriteRenderer fireballCooldownRenderer;
     public SpriteRenderer lightningCooldownRenderer;
+    public SpriteRenderer dazeCooldownRenderer;
     public float fireballCoolDownTimer;
     public float lightningCoolDownTimer;
+    public float dazeCoolDownTimer;
 
 
     private Vector2 Position
@@ -105,6 +108,10 @@ public class EnemyController : MonoBehaviour
             moveTimer -= Time.deltaTime;
             fireballTimer -= Time.deltaTime;
             knockbackTimer -= Time.deltaTime;
+            fireballCoolDownTimer -= Time.deltaTime;
+            lightningCoolDownTimer -= Time.deltaTime;
+            dazeCoolDownTimer -= Time.deltaTime;
+
 
             playerController.playerHit = false;
             if (playerPosition.position.x < enemyPosition.position.x)
@@ -153,6 +160,14 @@ public class EnemyController : MonoBehaviour
             else
             {
                 lightningCooldownRenderer.sprite = lightningCooldown[1];
+            }
+            if (dazeCoolDownTimer <= 0)
+            {
+                dazeCooldownRenderer.sprite = dazeCooldown[0];
+            }
+            else
+            {
+                dazeCooldownRenderer.sprite = dazeCooldown[1];
             }
 
             if (kickTimer < 0)
@@ -380,26 +395,30 @@ public class EnemyController : MonoBehaviour
 
     void BlowBack()
     {
-
-        if (playerController.facingRight)
+        if (dazeCoolDownTimer <= 0)
         {
+            if (playerController.facingRight)
+            {
 
-            playerController.rb.AddForce(new Vector2(-400, 250));
-            playerController.isInKnockback = true;
-            playerController.knockbackTimer = 1f;
-            playerController.anim.SetBool("isDazed", true);
+                playerController.rb.AddForce(new Vector2(-400, 250));
+                playerController.isInKnockback = true;
+                playerController.knockbackTimer = 1f;
+                playerController.anim.SetBool("isDazed", true);
 
 
+            }
+            if (!playerController.facingRight)
+            {
+
+                playerController.rb.AddForce(new Vector2(400, 250));
+                playerController.isInKnockback = true;
+                playerController.knockbackTimer = 1f;
+                playerController.anim.SetBool("isDazed", true);
+
+            }
+            dazeCoolDownTimer = 1f;
         }
-        if (!playerController.facingRight)
-        {
 
-            playerController.rb.AddForce(new Vector2(400, 250));
-            playerController.isInKnockback = true;
-            playerController.knockbackTimer = 1f;
-            playerController.anim.SetBool("isDazed", true);
-
-        }
 
     }
 
