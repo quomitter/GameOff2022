@@ -258,9 +258,11 @@ public class EnemyController : MonoBehaviour
                         randomNumber = 0;
                         break;
                     case 4:
-                        //Jump
-                        if (isGrounded)
-                            enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
+                        if (!isInKnockback)
+                        {
+                            if (isGrounded)
+                                enemyRB.AddForce(transform.up * 500, ForceMode2D.Force);
+                        }
                         randomNumber = 0;
                         break;
                     case 5:
@@ -290,7 +292,7 @@ public class EnemyController : MonoBehaviour
 
                         break;
                     case 7:
-                        if (isInKnockback)
+                        if (!isInKnockback)
                             BlockPlayer();
                         randomNumber = 0;
                         break;
