@@ -455,9 +455,6 @@ public class PlayerController : MonoBehaviour
             }
             dazeCooldownTimer = 1f;
         }
-
-
-
     }
 
 
