@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Event currentEvent;
-    public Event prevEvent;
-    public Event prev2Event;
-    public List<string> keyCodes;
+    //public Event currentEvent;
+    //public Event prevEvent;
+    //public Event prev2Event;
+    //public List<string> keyCodes;
     public GameObject fireball;
     public Animator anim;
     public Rigidbody2D rb;
