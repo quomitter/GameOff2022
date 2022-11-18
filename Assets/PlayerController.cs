@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public Event currentEvent;
     public Event prevEvent;
+    public Event prev2Event;
     public List<string> keyCodes;
     public GameObject fireball;
     public Animator anim;
@@ -340,21 +341,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (currentEvent != null)
-            prevEvent = currentEvent;
-        if (Event.current != null)
-            currentEvent = Event.current;
-        if (currentEvent.isKey || currentEvent.isMouse)
-        {
-            if (currentEvent.isKey)
-                Debug.Log("Detected key code: " + currentEvent.keyCode);
-            if (currentEvent.isMouse)
-                Debug.Log("Detected key code: " + currentEvent.button);
-            //if (currentEvent.keyCode == KeyCode.Mouse0) { }
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    prev2Event = prevEvent;
+    //    prevEvent = currentEvent;
+    //    currentEvent = Event.current;
+    //    Debug.Log(prev2Event.keyCode + " " + prevEvent.keyCode + " " + currentEvent.keyCode);
+    //    if (prev2Event.keyCode == KeyCode.W && prevEvent.keyCode == KeyCode.S && currentEvent.keyCode == KeyCode.Mouse0)
+    //    {
+    //        Debug.Log("You performed a special attack!");
+    //    }
+
+    //}
 
     void FlipX()
     {
