@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    //public List<string> keyCodes;
+    public Event currentEvent;
+    public Event prevEvent;
+    public List<string> keyCodes;
     public GameObject fireball;
     public Animator anim;
     public Rigidbody2D rb;
@@ -335,12 +337,21 @@ public class PlayerController : MonoBehaviour
                 BlowBack();
 
             }
-            //if (Input.anyKey)
-            //{
-            //    if (Input.inputString != null && Input.inputString != "")
-            //        keyCodes.Add(Input.inputString);
-            //}
+        }
+    }
 
+    private void OnGUI()
+    {
+        if (currentEvent != null)
+            prevEvent = currentEvent;
+        if (Event.current != null)
+            currentEvent = Event.current;
+        if (currentEvent.isKey || currentEvent.isMouse)
+        {
+            if (currentEvent.isKey)
+                Debug.Log("Detected key code: " + currentEvent.keyCode);
+            if (currentEvent.isMouse)
+                Debug.Log("Detected key code: " + currentEvent.button);
         }
     }
 
