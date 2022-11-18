@@ -352,6 +352,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Detected key code: " + currentEvent.keyCode);
             if (currentEvent.isMouse)
                 Debug.Log("Detected key code: " + currentEvent.button);
+            //if (currentEvent.keyCode == KeyCode.Mouse0) { }
         }
     }
 
