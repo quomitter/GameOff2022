@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     //public Event currentEvent;
     //public Event prevEvent;
     //public Event prev2Event;
-    //public List<string> keyCodes;
+    //public List<KeyCode> keyCodes = new List<KeyCode>(4);
     public GameObject fireball;
     public Animator anim;
     public Rigidbody2D rb;
@@ -343,14 +343,25 @@ public class PlayerController : MonoBehaviour
 
     //private void OnGUI()
     //{
-    //    prev2Event = prevEvent;
-    //    prevEvent = currentEvent;
+    //    //prev2Event = prevEvent;
+    //    //prevEvent = currentEvent;
     //    currentEvent = Event.current;
-    //    Debug.Log(prev2Event.keyCode + " " + prevEvent.keyCode + " " + currentEvent.keyCode);
-    //    if (prev2Event.keyCode == KeyCode.W && prevEvent.keyCode == KeyCode.S && currentEvent.keyCode == KeyCode.Mouse0)
+    //    //Debug.Log(prev2Event.keyCode + " " + prevEvent.keyCode + " " + currentEvent.keyCode);
+
+    //    keyCodes.Add(currentEvent.keyCode);
+    //    if(keyCodes.Count >= 4)
     //    {
-    //        Debug.Log("You performed a special attack!");
+    //        keyCodes.RemoveAt(0);
     //    }
+
+    //    Debug.Log(keyCodes[0] + " " + keyCodes[1] + " " + keyCodes[2]);
+        
+
+
+    //    //if (prev2Event.keyCode == KeyCode.W && prevEvent.keyCode == KeyCode.S && currentEvent.keyCode == KeyCode.Mouse0)
+    //    //{
+    //    //    Debug.Log("You performed a special attack!");
+    //    //}
 
     //}
 
