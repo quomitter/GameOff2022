@@ -376,7 +376,7 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = theRotaion;
     }
 
-    void PunchEnemy()
+    public void PunchEnemy()
     {
 
         anim.SetBool("isPunching", true);
@@ -391,7 +391,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void KickEnemy()
+    public void KickEnemy()
     {
 
         anim.SetBool("isKicking", true);
@@ -410,13 +410,13 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    void PlayerJump()
+    public void PlayerJump()
     {
         if (isGrounded)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Force);
     }
 
-    void ShootFireBall()
+    public void ShootFireBall()
     {
         if (fireballCoolDownTimer <= 0)
         {
@@ -433,7 +433,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void RainLightning()
+    public void RainLightning()
     {
         if (lightningCoolDownTimer <= 0)
         {
@@ -451,7 +451,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void BlowBack()
+    public void BlowBack()
     {
         if (dazeCooldownTimer <= 0)
         {
